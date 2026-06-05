@@ -5,15 +5,14 @@
 
 /* ---- CONFIG : à personnaliser ---- */
 const DEM = {
-  whatsapp: "221778245325",          // numéro WhatsApp (format international, sans +)
-  instagram: "https://instagram.com/__demsn__",
+  whatsapp: "221780109399",          // numéro WhatsApp (= numéro de commande)
+  instagram: "https://www.instagram.com/__demsn__/",
   site: "www.demsn.sn",
   currency: "FCFA",
   payment: {
-    // Numéros qui RECEVRONT les paiements (à remplacer par les tiens)
-    wave: "+221 77 824 53 25",
-    orangeMoney: "+221 77 824 53 25",
-    // Modes proposés au client
+    // Numéro qui reçoit les paiements Wave / Orange Money
+    wave: "+221 78 010 93 99",
+    orangeMoney: "+221 78 010 93 99",
     modes: ["Wave", "Orange Money", "Paiement à la livraison"],
     default: "Paiement à la livraison",
   },
@@ -47,7 +46,7 @@ const findProduct = id => ALL.find(p => p.id === id);
 const sizeLabel = s => s==="Taille unique" ? "Taille unique" : "Taille "+s;
 
 /* ---- Tableaux imprimés (timbres DEM DAKAR) — hauteur 85 cm, format 68 × 85 cm ---- */
-const TABLEAU_PRICE = 25000;   // prix d'un tableau imprimé 68 × 85 cm (à ajuster si besoin)
+const TABLEAU_PRICE = 45000;   // prix d'un tableau imprimé 68 × 85 cm
 const TABLEAU_SIZE  = "68 × 85 cm";
 const TIMBRES = [
   { id:"t-renaissance", name:"Monument de la Renaissance", serie:"Série Dakar", img:"assets/timbres/renaissance.jpg" },
