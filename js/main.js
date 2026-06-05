@@ -46,17 +46,15 @@ const ALL = [...PRODUCTS, ...CAPS];
 const findProduct = id => ALL.find(p => p.id === id);
 const sizeLabel = s => s==="Taille unique" ? "Taille unique" : "Taille "+s;
 
-/* ---- Timbres à imprimer (Série Dakar) — prix = valeur faciale ---- */
+/* ---- Tableaux imprimés (timbres DEM DAKAR) — hauteur 85 cm, format 68 × 85 cm ---- */
+const TABLEAU_PRICE = 25000;   // prix d'un tableau imprimé 68 × 85 cm (à ajuster si besoin)
+const TABLEAU_SIZE  = "68 × 85 cm";
 const TIMBRES = [
-  { id:"t-renaissance", name:"Monument de la Renaissance", serie:"Série Dakar · 2024", value:100, img:"assets/timbres/renaissance.jpg" },
-  { id:"t-lacrose",     name:"Lac Rose",                    serie:"Série Dakar · 2025", value:150, img:"assets/timbres/lacrose.jpg" },
-  { id:"t-millenaire",  name:"Place du Millénaire",         serie:"Série Dakar · 2025", value:200, img:"assets/timbres/millenaire.jpg" },
-  { id:"t-thieb",       name:"Thiéboudienne",               serie:"Série Dakar · 2025", value:250, img:"assets/timbres/thieboudienne.jpg" },
-  { id:"t-pirogues",    name:"Pirogues",                    serie:"Série Dakar · 2025", value:300, img:"assets/timbres/pirogues.jpg" },
-  { id:"t-carrapide",   name:"Car Rapide",                  serie:"Série Dakar · 2024", value:350, img:"assets/timbres/carrapide.jpg" },
-  { id:"t-carte",       name:"Carte de Dakar",              serie:"Série Dakar · 2025", value:450, img:"assets/timbres/carte.jpg" },
-  { id:"t-danses",      name:"Danses traditionnelles",      serie:"Série Dakar · 2025", value:500, img:"assets/timbres/danses.jpg" },
-];
+  { id:"t-renaissance", name:"Monument de la Renaissance", serie:"Série Dakar", img:"assets/timbres/renaissance.jpg" },
+  { id:"t-lacrose",     name:"Lac Rose",                   serie:"Série Dakar", img:"assets/timbres/lacrose.jpg" },
+  { id:"t-millenaire",  name:"Place du Millénaire",        serie:"Série Dakar", img:"assets/timbres/millenaire.jpg" },
+  { id:"t-carte",       name:"Carte de Dakar",             serie:"Série Dakar", img:"assets/timbres/carte.jpg" },
+].map(t=>({ ...t, size:TABLEAU_SIZE, price:TABLEAU_PRICE }));
 
 /* =========================================================
    CART
@@ -207,19 +205,21 @@ function renderTimbresTable(targetId){
   wrap.innerHTML=`
     <table class="tbl-timbres">
       <thead>
-        <tr><th>Aperçu</th><th>Timbre</th><th class="col-serie">Série</th><th>Valeur</th><th class="col-act">Commander</th></tr>
+        <tr><th>Aperçu</th><th>Tableau</th><th class="col-serie">Format</th><th>Prix</th><th class="col-act">Commander</th></tr>
       </thead>
       <tbody>
         ${TIMBRES.map(t=>{
           const msg=encodeURIComponent(
-`Bonjour, je veux commander le timbre à imprimer DEM DAKAR : ${t.name} (${t.value} FCFA).
+`Bonjour, je veux commander un tableau imprimé DEM DAKAR : ${t.name}.
+Format : ${t.size} (hauteur 85 cm)
+Prix : ${fmt(t.price)}
 Quantité : 1
 Zone de livraison :`);
           return `<tr>
-            <td class="tbl-thumb"><img src="${t.img}" alt="Timbre ${t.name}" loading="lazy"></td>
-            <td><span class="tbl-name">${t.name}</span><span class="tbl-serie-m">${t.serie}</span></td>
-            <td class="col-serie">${t.serie}</td>
-            <td class="tbl-price">${fmt(t.value)}</td>
+            <td class="tbl-thumb"><img src="${t.img}" alt="Tableau ${t.name}" loading="lazy"></td>
+            <td><span class="tbl-name">${t.name}</span><span class="tbl-serie-m">${t.size} · ${t.serie}</span></td>
+            <td class="col-serie">${t.size}</td>
+            <td class="tbl-price">${fmt(t.price)}</td>
             <td class="col-act"><a class="btn btn--wa btn--sm" target="_blank" rel="noopener" href="https://wa.me/${DEM.whatsapp}?text=${msg}">${waIcon()} Commander</a></td>
           </tr>`;
         }).join("")}
