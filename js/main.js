@@ -208,7 +208,7 @@ function renderTimbresTable(targetId){
         <tr><th>Aperçu</th><th>Tableau</th><th class="col-serie">Format</th><th>Prix</th><th class="col-act">Commander</th></tr>
       </thead>
       <tbody>
-        ${TIMBRES.map(t=>{
+        ${TIMBRES.map((t,i)=>{
           const msg=encodeURIComponent(
 `Bonjour, je veux commander un tableau imprimé DEM DAKAR : ${t.name}.
 Format : ${t.size} (hauteur 85 cm)
@@ -216,8 +216,8 @@ Prix : ${fmt(t.price)}
 Quantité : 1
 Zone de livraison :`);
           return `<tr>
-            <td class="tbl-thumb"><img src="${t.img}" alt="Tableau ${t.name}" loading="lazy"></td>
-            <td><span class="tbl-name">${t.name}</span><span class="tbl-serie-m">${t.size} · ${t.serie}</span></td>
+            <td class="tbl-thumb" data-lbx="${i}" title="Voir en grand"><img src="${t.img}" alt="Tableau ${t.name}" loading="lazy"><span class="tbl-thumb__zoom">⤢</span></td>
+            <td><span class="tbl-name">${t.name}</span><span class="tbl-serie-m">${t.size} · ${t.serie}</span><button class="tbl-zoom" data-lbx="${i}">⤢ Voir en grand</button></td>
             <td class="col-serie">${t.size}</td>
             <td class="tbl-price">${fmt(t.price)}</td>
             <td class="col-act"><a class="btn btn--wa btn--sm" target="_blank" rel="noopener" href="https://wa.me/${DEM.whatsapp}?text=${msg}">${waIcon()} Commander</a></td>
@@ -225,6 +225,67 @@ Zone de livraison :`);
         }).join("")}
       </tbody>
     </table>`;
+
+  // clic sur une miniature / "Voir en grand" -> aperçu plein écran
+  wrap.addEventListener("click",e=>{
+    const z=e.target.closest("[data-lbx]"); if(!z) return;
+    e.preventDefault(); openLightbox(+z.dataset.lbx);
+  });
+}
+
+/* =========================================================
+   LIGHTBOX : aperçu grand format des tableaux
+   ========================================================= */
+let lbxIndex=0;
+function buildLightbox(){
+  if(document.getElementById("tableauLbx")) return;
+  const el=document.createElement("div");
+  el.className="lbx"; el.id="tableauLbx"; el.setAttribute("aria-hidden","true");
+  el.innerHTML=`
+    <button class="lbx__close" data-lbx-close aria-label="Fermer">&times;</button>
+    <button class="lbx__nav lbx__prev" data-lbx-prev aria-label="Précédent">&#8249;</button>
+    <figure class="lbx__fig">
+      <img id="lbxImg" src="" alt="">
+      <figcaption class="lbx__cap">
+        <div><span class="lbx__name" id="lbxName"></span><span class="lbx__meta" id="lbxMeta"></span></div>
+        <a class="btn btn--wa" id="lbxBuy" target="_blank" rel="noopener">${waIcon()} Commander</a>
+      </figcaption>
+    </figure>
+    <button class="lbx__nav lbx__next" data-lbx-next aria-label="Suivant">&#8250;</button>`;
+  document.body.appendChild(el);
+  el.addEventListener("click",e=>{
+    if(e.target===el || e.target.closest("[data-lbx-close]")) closeLightbox();
+    else if(e.target.closest("[data-lbx-prev]")) showLightbox(lbxIndex-1);
+    else if(e.target.closest("[data-lbx-next]")) showLightbox(lbxIndex+1);
+  });
+  document.addEventListener("keydown",e=>{
+    if(!document.getElementById("tableauLbx").classList.contains("open")) return;
+    if(e.key==="Escape") closeLightbox();
+    if(e.key==="ArrowLeft") showLightbox(lbxIndex-1);
+    if(e.key==="ArrowRight") showLightbox(lbxIndex+1);
+  });
+}
+function showLightbox(i){
+  const n=TIMBRES.length; lbxIndex=(i%n+n)%n; const t=TIMBRES[lbxIndex];
+  const msg=encodeURIComponent(
+`Bonjour, je veux commander un tableau imprimé DEM DAKAR : ${t.name}.
+Format : ${t.size} (hauteur 85 cm)
+Prix : ${fmt(t.price)}
+Quantité : 1
+Zone de livraison :`);
+  document.getElementById("lbxImg").src=t.img;
+  document.getElementById("lbxImg").alt="Tableau "+t.name;
+  document.getElementById("lbxName").textContent=t.name;
+  document.getElementById("lbxMeta").textContent=`${t.size} · ${fmt(t.price)}`;
+  document.getElementById("lbxBuy").href=`https://wa.me/${DEM.whatsapp}?text=${msg}`;
+  const el=document.getElementById("tableauLbx");
+  el.classList.add("open"); el.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+}
+function openLightbox(i){ buildLightbox(); showLightbox(i); }
+function closeLightbox(){
+  const el=document.getElementById("tableauLbx"); if(!el) return;
+  el.classList.remove("open"); el.setAttribute("aria-hidden","true"); document.body.style.overflow="";
 }
 function waIcon(){ return `<svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M.06 24l1.68-6.13A11.86 11.86 0 0 1 .16 11.9 11.94 11.94 0 0 1 12.07 0a11.86 11.86 0 0 1 8.44 3.5 11.82 11.82 0 0 1 3.49 8.42c0 6.56-5.35 11.9-11.93 11.9a12 12 0 0 1-5.7-1.45L.06 24zM6.6 20.13l.36.21a9.86 9.86 0 0 0 5.02 1.38h.01c5.45 0 9.9-4.43 9.9-9.88a9.82 9.82 0 0 0-2.9-6.99 9.8 9.8 0 0 0-6.99-2.9c-5.46 0-9.9 4.44-9.9 9.89a9.83 9.83 0 0 0 1.51 5.26l.24.38-1 3.63 3.75-.98zM17.5 14.3c-.07-.12-.26-.2-.55-.34s-1.74-.86-2-.96-.46-.14-.65.14-.74.95-.9 1.14-.34.21-.62.07a8.06 8.06 0 0 1-2.37-1.46 8.9 8.9 0 0 1-1.64-2.04c-.17-.3 0-.45.13-.6.13-.13.29-.34.43-.5.15-.17.2-.29.29-.48a.54.54 0 0 0-.02-.51c-.07-.14-.65-1.57-.9-2.15-.23-.56-.47-.48-.65-.49h-.55a1.07 1.07 0 0 0-.77.36 3.23 3.23 0 0 0-1 2.4 5.6 5.6 0 0 0 1.17 2.98c.14.19 2.02 3.08 4.9 4.32a16.5 16.5 0 0 0 1.63.6 3.93 3.93 0 0 0 1.81.12c.55-.09 1.74-.71 1.98-1.4.25-.68.25-1.27.18-1.39z"/></svg>`; }
 
