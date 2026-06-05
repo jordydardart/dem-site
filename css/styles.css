@@ -445,6 +445,21 @@ h3{font-size:clamp(1.6rem,3.4vw,2.4rem)}
 .breadcrumb{font-size:.8rem;color:var(--muted);margin-bottom:1rem;letter-spacing:.04em}
 .breadcrumb a:hover{color:var(--ink)}
 
+/* page-hero coloré (page commander) */
+.page-hero--order{background:var(--blue);color:#fff}
+.page-hero--order h1{color:#fff}
+.page-hero--order .breadcrumb{color:#aab4d4}
+.page-hero--order .breadcrumb a:hover{color:#fff}
+
+/* Bandeau urgence */
+.urgency-bar{background:var(--red);color:#fff;text-align:center;font-weight:600;font-size:.88rem;letter-spacing:.01em;padding:.7rem 1rem;display:flex;align-items:center;justify-content:center;gap:.55rem;flex-wrap:wrap}
+.urgency-bar b{font-weight:800}
+.urgency-bar .pulse{width:9px;height:9px;border-radius:50%;background:#fff;animation:pulse 1.5s infinite;flex:none}
+
+/* Bloc motifs du logo (footer) */
+.logo-motifs{display:block;height:26px;width:auto;margin:14px 0 2px}
+.footer-tag{font-family:var(--font-display);font-size:1.05rem;letter-spacing:.08em;color:#fff}
+
 /* ---------- Histoire ---------- */
 .prose{max-width:62ch}
 .prose p{margin-bottom:1.1rem;font-size:1.1rem;color:#2b2e34}

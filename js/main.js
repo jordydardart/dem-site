@@ -6,7 +6,7 @@
 /* ---- CONFIG : à personnaliser ---- */
 const DEM = {
   whatsapp: "221778245325",          // numéro WhatsApp (format international, sans +)
-  instagram: "https://instagram.com/dem.dakar",
+  instagram: "https://instagram.com/__demsn__",
   site: "www.demsn.sn",
   currency: "FCFA",
   payment: {
@@ -149,6 +149,17 @@ function paymentSelectorHTML(){
         <span class="pay-opt__txt">${m}</span>
       </label>`).join("")}
   </div>`;
+}
+
+/* ---- Bloc motifs du logo DEM DAKAR (5 carrés) ---- */
+function motifStrip(){
+  return `<svg class="logo-motifs" viewBox="0 0 164 28" height="28" role="img" aria-label="Motifs DEM DAKAR">
+    <g><rect width="28" height="28" rx="2.5" fill="#16307a"/><g fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M5 9q3-3 6 0t6 0t6 0"/><path d="M5 14q3-3 6 0t6 0t6 0"/><path d="M5 19q3-3 6 0t6 0t6 0"/></g></g>
+    <g transform="translate(34 0)"><rect width="28" height="28" rx="2.5" fill="#1f8f4d"/><path d="M14 5 16.5 11.5 23 14 16.5 16.5 14 23 11.5 16.5 5 14 11.5 11.5Z" fill="#fff"/></g>
+    <g transform="translate(68 0)"><rect width="28" height="28" rx="2.5" fill="#f4b51e"/><g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8 14 14 22 8"/><path d="M6 14 14 20 22 14"/></g></g>
+    <g transform="translate(102 0)"><rect width="28" height="28" rx="2.5" fill="#e23b2e"/><g transform="rotate(45 14 14)"><rect x="7.5" y="7.5" width="13" height="13" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M14 7.5V20.5M7.5 14H20.5" stroke="#fff" stroke-width="1.4"/></g></g>
+    <g transform="translate(136 0)"><g fill="none" stroke="#1f8f4d" stroke-width="2.4" stroke-linecap="round"><path d="M2 9q3-3 6 0t6 0t6 0"/><path d="M2 14q3-3 6 0t6 0t6 0"/><path d="M2 19q3-3 6 0t6 0t6 0"/></g></g>
+  </svg>`;
 }
 
 function openDrawer(){ const o=document.getElementById("overlay"),d=document.getElementById("cartDrawer");
@@ -445,6 +456,14 @@ function initChrome(){
     a.href = a.dataset.wa ? `${base}?text=${encodeURIComponent(a.dataset.wa)}` : base;
   });
   document.querySelectorAll("[data-ig]").forEach(a=>a.href=DEM.instagram);
+  // bloc motifs (logo) dans le pied de page
+  document.querySelectorAll(".footer-brand").forEach(fb=>{
+    if(fb.querySelector(".logo-motifs")) return;
+    const html = motifStrip() + '<div class="footer-tag">Un peuple, une ville, un futur</div>';
+    const payRow = fb.querySelector(".pay-row");
+    if(payRow) payRow.insertAdjacentHTML("beforebegin", html);
+    else fb.insertAdjacentHTML("beforeend", html);
+  });
   // numéros de paiement dynamiques
   document.querySelectorAll("[data-pay-wave]").forEach(el=>el.textContent=DEM.payment.wave);
   document.querySelectorAll("[data-pay-om]").forEach(el=>el.textContent=DEM.payment.orangeMoney);
