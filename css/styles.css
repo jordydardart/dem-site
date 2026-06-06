@@ -531,45 +531,15 @@ h3{font-size:clamp(1.6rem,3.4vw,2.4rem)}
 }
 
 /* ============================================================
-   URGENCE — fonds beige -> ROUGE (texte clair, lisible)
+   URGENCE — UNIQUEMENT les en-têtes de page en ROUGE
+   (le reste — manifeste, communauté, paiement, splits — reste beige)
    ============================================================ */
-.manifeste,
-.community,
-.paymethods,
-.page-hero:not(.page-hero--order),
-.split--cream .split__body{ background:var(--red); color:#fff; }
-
-/* Titres & textes en blanc */
-.manifeste h2, .manifeste p, .manifeste .lead, .manifeste .lead b,
-.community h2, .community p, .community .lead, .community .hashtags,
-.paymethods h2, .paymethods p, .paymethods .lead,
+.page-hero:not(.page-hero--order){ background:var(--red); color:#fff; }
 .page-hero:not(.page-hero--order) h1,
 .page-hero:not(.page-hero--order) .lead,
-.page-hero:not(.page-hero--order) .lead b,
-.split--cream .split__body h2,
-.split--cream .split__body .lead{ color:#fff; }
-
-/* Sous-titres gris (sec-head) -> blanc translucide */
-.community .sec-head p, .paymethods .sec-head p{ color:rgba(255,255,255,.9); }
-.paymethods .pm-note{ color:rgba(255,255,255,.88); }
-
-/* Eyebrows -> rose clair */
-.manifeste .eyebrow, .community .eyebrow, .paymethods .eyebrow,
-.page-hero:not(.page-hero--order) .eyebrow,
-.split--cream .split__body .eyebrow{ color:#ffe2de; }
-
-/* Accents rouges (invisibles sur rouge) -> jaune */
-.manifeste h2 span{ color:var(--yellow) !important; }   /* "Ça se porte." */
-.bigquote{ color:#fff; }
-.bigquote em{ color:var(--yellow); }
-.hashtags b:nth-child(2){ color:var(--yellow); }
-
-/* Fil d'ariane sur en-tête rouge */
+.page-hero:not(.page-hero--order) .lead b{ color:#fff; }
+.page-hero:not(.page-hero--order) .eyebrow{ color:#ffe2de; }
 .page-hero:not(.page-hero--order) .breadcrumb{ color:#ffd4cf; }
 .page-hero:not(.page-hero--order) .breadcrumb a:hover{ color:#fff; }
-
-/* Boutons contour (T-SHIRTS/CASQUETTES/TABLEAUX, etc.) lisibles sur rouge */
-.page-hero:not(.page-hero--order) .btn--ghost,
-.split--cream .split__body .btn--ghost{ box-shadow:inset 0 0 0 1.5px #fff; color:#fff; }
-.page-hero:not(.page-hero--order) .btn--ghost:hover,
-.split--cream .split__body .btn--ghost:hover{ background:#fff; color:var(--red); }
+.page-hero:not(.page-hero--order) .btn--ghost{ box-shadow:inset 0 0 0 1.5px #fff; color:#fff; }
+.page-hero:not(.page-hero--order) .btn--ghost:hover{ background:#fff; color:var(--red); }
