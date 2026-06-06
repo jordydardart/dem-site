@@ -10,9 +10,9 @@ const DEM = {
   site: "www.demsn.sn",
   currency: "FCFA",
   payment: {
-    // Numéro qui reçoit les paiements Wave / Orange Money
+    // Numéros qui reçoivent les paiements
     wave: "+221 78 010 93 99",
-    orangeMoney: "+221 78 010 93 99",
+    orangeMoney: "+221 77 824 53 25",
     modes: ["Wave", "Orange Money", "Paiement à la livraison"],
     default: "Paiement à la livraison",
   },
@@ -191,7 +191,7 @@ function renderGrid(targetId, list, limit){
         <div class="pcard__price">${fmt(p.price)}</div>
         <div class="pcard__sizes">${sizeLabel}</div>
         <div class="pcard__actions">
-          <a href="produit.html?id=${p.id}" class="btn btn--ghost btn--block">Choisir</a>
+          <a href="produit.html?id=${p.id}" class="btn btn--solid btn--block">Commander</a>
           <a class="btn btn--wa btn--block" target="_blank" rel="noopener"
              href="https://wa.me/${DEM.whatsapp}?text=${waProductMsg(p)}">${waIcon()} WhatsApp</a>
         </div>
