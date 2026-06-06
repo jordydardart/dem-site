@@ -43,18 +43,20 @@ const CAPS = [
   name:`Casquette DAKAR — ${p.color}`, price:10000, sizes:["Taille unique"], main:p.images[0], alt:p.images[1]||p.images[0] }));
 
 const ALL = [...PRODUCTS, ...CAPS];
-const findProduct = id => ALL.find(p => p.id === id);
-const sizeLabel = s => s==="Taille unique" ? "Taille unique" : "Taille "+s;
+const findProduct = id => ALL.find(p => p.id === id) || TIMBRES.find(t => t.id === id);
+const sizeLabel = s => s==="Taille unique" ? "Taille unique" : (/cm|×/.test(s) ? "Format "+s : "Taille "+s);
 
 /* ---- Tableaux imprimés (timbres DEM DAKAR) — hauteur 85 cm, format 68 × 85 cm ---- */
 const TABLEAU_PRICE = 45000;   // prix d'un tableau imprimé 68 × 85 cm
 const TABLEAU_SIZE  = "68 × 85 cm";
 const TIMBRES = [
-  { id:"t-renaissance", name:"Monument de la Renaissance", serie:"Série Dakar", img:"assets/timbres/renaissance.jpg" },
-  { id:"t-lacrose",     name:"Lac Rose",                   serie:"Série Dakar", img:"assets/timbres/lacrose.jpg" },
-  { id:"t-millenaire",  name:"Place du Millénaire",        serie:"Série Dakar", img:"assets/timbres/millenaire.jpg" },
-  { id:"t-carte",       name:"Carte de Dakar",             serie:"Série Dakar", img:"assets/timbres/carte.jpg" },
-].map(t=>({ ...t, size:TABLEAU_SIZE, price:TABLEAU_PRICE }));
+  { id:"t-renaissance", theme:"Monument de la Renaissance", serie:"Série Dakar", img:"assets/timbres/renaissance.jpg" },
+  { id:"t-lacrose",     theme:"Lac Rose",                   serie:"Série Dakar", img:"assets/timbres/lacrose.jpg" },
+  { id:"t-millenaire",  theme:"Place du Millénaire",        serie:"Série Dakar", img:"assets/timbres/millenaire.jpg" },
+  { id:"t-carte",       theme:"Carte de Dakar",             serie:"Série Dakar", img:"assets/timbres/carte.jpg" },
+].map(t=>({ ...t,
+  name:`Tableau DEM DAKAR — ${t.theme}`, color:t.theme, typeLabel:"Tableau", category:"tableau",
+  main:t.img, images:[t.img], price:TABLEAU_PRICE, size:TABLEAU_SIZE, sizes:[TABLEAU_SIZE] }));
 
 /* =========================================================
    CART
@@ -216,31 +218,27 @@ function renderTimbresTable(targetId){
   wrap.innerHTML=`
     <table class="tbl-timbres">
       <thead>
-        <tr><th>Aperçu</th><th>Tableau</th><th class="col-serie">Format</th><th>Prix</th><th class="col-act">Commander</th></tr>
+        <tr><th>Aperçu</th><th>Tableau</th><th class="col-serie">Format</th><th>Prix</th><th class="col-act">Panier</th></tr>
       </thead>
       <tbody>
         ${TIMBRES.map((t,i)=>{
-          const msg=encodeURIComponent(
-`Bonjour, je veux commander un tableau imprimé DEM DAKAR : ${t.name}.
-Format : ${t.size} (hauteur 85 cm)
-Prix : ${fmt(t.price)}
-Quantité : 1
-Zone de livraison :`);
           return `<tr>
-            <td class="tbl-thumb" data-lbx="${i}" title="Voir en grand"><img src="${t.img}" alt="Tableau ${t.name}" loading="lazy"><span class="tbl-thumb__zoom">⤢</span></td>
-            <td><span class="tbl-name">${t.name}</span><span class="tbl-serie-m">${t.size} · ${t.serie}</span><button class="tbl-zoom" data-lbx="${i}">⤢ Voir en grand</button></td>
+            <td class="tbl-thumb" data-lbx="${i}" title="Voir en grand"><img src="${t.img}" alt="Tableau ${t.theme}" loading="lazy"><span class="tbl-thumb__zoom">⤢</span></td>
+            <td><span class="tbl-name">${t.theme}</span><span class="tbl-serie-m">${t.size} · ${t.serie}</span><button class="tbl-zoom" data-lbx="${i}">⤢ Voir en grand</button></td>
             <td class="col-serie">${t.size}</td>
             <td class="tbl-price">${fmt(t.price)}</td>
-            <td class="col-act"><a class="btn btn--wa btn--sm" target="_blank" rel="noopener" href="https://wa.me/${DEM.whatsapp}?text=${msg}">${waIcon()} Commander</a></td>
+            <td class="col-act"><button class="btn btn--solid btn--sm" data-add="${t.id}">+ Panier</button></td>
           </tr>`;
         }).join("")}
       </tbody>
     </table>`;
 
-  // clic sur une miniature / "Voir en grand" -> aperçu plein écran
+  // délégation : miniature -> aperçu plein écran · bouton -> ajout panier
   wrap.addEventListener("click",e=>{
-    const z=e.target.closest("[data-lbx]"); if(!z) return;
-    e.preventDefault(); openLightbox(+z.dataset.lbx);
+    const add=e.target.closest("[data-add]");
+    if(add){ Cart.add(add.dataset.add, TABLEAU_SIZE, 1); return; }
+    const z=e.target.closest("[data-lbx]");
+    if(z){ e.preventDefault(); openLightbox(+z.dataset.lbx); }
   });
 }
 
@@ -259,12 +257,16 @@ function buildLightbox(){
       <img id="lbxImg" src="" alt="">
       <figcaption class="lbx__cap">
         <div><span class="lbx__name" id="lbxName"></span><span class="lbx__meta" id="lbxMeta"></span></div>
-        <a class="btn btn--wa" id="lbxBuy" target="_blank" rel="noopener">${waIcon()} Commander</a>
+        <div class="lbx__actions">
+          <button class="btn btn--solid" data-lbx-add>+ Panier</button>
+          <a class="btn btn--wa" id="lbxBuy" target="_blank" rel="noopener">${waIcon()} WhatsApp</a>
+        </div>
       </figcaption>
     </figure>
     <button class="lbx__nav lbx__next" data-lbx-next aria-label="Suivant">&#8250;</button>`;
   document.body.appendChild(el);
   el.addEventListener("click",e=>{
+    if(e.target.closest("[data-lbx-add]")){ Cart.add(TIMBRES[lbxIndex].id, TABLEAU_SIZE, 1); closeLightbox(); return; }
     if(e.target===el || e.target.closest("[data-lbx-close]")) closeLightbox();
     else if(e.target.closest("[data-lbx-prev]")) showLightbox(lbxIndex-1);
     else if(e.target.closest("[data-lbx-next]")) showLightbox(lbxIndex+1);
@@ -279,14 +281,14 @@ function buildLightbox(){
 function showLightbox(i){
   const n=TIMBRES.length; lbxIndex=(i%n+n)%n; const t=TIMBRES[lbxIndex];
   const msg=encodeURIComponent(
-`Bonjour, je veux commander un tableau imprimé DEM DAKAR : ${t.name}.
+`Bonjour, je veux commander un tableau imprimé DEM DAKAR : ${t.theme}.
 Format : ${t.size} (hauteur 85 cm)
 Prix : ${fmt(t.price)}
 Quantité : 1
 Zone de livraison :`);
   document.getElementById("lbxImg").src=t.img;
-  document.getElementById("lbxImg").alt="Tableau "+t.name;
-  document.getElementById("lbxName").textContent=t.name;
+  document.getElementById("lbxImg").alt="Tableau "+t.theme;
+  document.getElementById("lbxName").textContent=t.theme;
   document.getElementById("lbxMeta").textContent=`${t.size} · ${fmt(t.price)}`;
   document.getElementById("lbxBuy").href=`https://wa.me/${DEM.whatsapp}?text=${msg}`;
   const el=document.getElementById("tableauLbx");

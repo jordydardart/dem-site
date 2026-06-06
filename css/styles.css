@@ -346,6 +346,7 @@ h3{font-size:clamp(1.6rem,3.4vw,2.4rem)}
 .lbx__fig{display:flex;flex-direction:column;align-items:center;gap:16px;max-height:100%;max-width:min(640px,94vw)}
 .lbx__fig img{max-height:80vh;max-width:100%;width:auto;object-fit:contain;border-radius:3px;box-shadow:0 40px 90px -25px rgba(0,0,0,.8)}
 .lbx__cap{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;color:#fff;flex-wrap:wrap}
+.lbx__actions{display:flex;gap:10px;flex-wrap:wrap}
 .lbx__name{font-family:var(--font-display);font-size:1.9rem;letter-spacing:.02em;line-height:1;display:block}
 .lbx__meta{display:block;color:#b8bcc6;font-size:.92rem;margin-top:3px}
 .lbx__close{position:fixed;top:18px;right:20px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:1.7rem;line-height:1;display:grid;place-items:center;transition:background .2s}
