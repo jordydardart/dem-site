@@ -35,6 +35,7 @@ const PRODUCTS = [
 
 /* ---- Casquettes (Drop 02) ---- */
 const CAPS = [
+  { id:"cap-noir",  color:"Noir",  hex:"#161616", images:["assets/caps/cap-noir.jpg"] },
   { id:"cap-bleu",  color:"Bleu",  hex:"#16307a", images:["assets/caps/cap-bleu.jpg","assets/caps/cap-bleu-worn.jpg"] },
   { id:"cap-vert",  color:"Vert",  hex:"#1f8f4d", images:["assets/caps/cap-vert.jpg","assets/caps/cap-vert-2.jpg"] },
   { id:"cap-jaune", color:"Jaune", hex:"#f4b51e", images:["assets/caps/cap-jaune.jpg","assets/caps/cap-jaune-worn.jpg"] },
