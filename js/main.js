@@ -341,7 +341,28 @@ function initProductPage(){
     <li>Couleurs : blanc, noir, vert, bleu, rouge, jaune</li>
     <li>Livraison à Dakar · Commande via WhatsApp</li>`;
 
-  document.title=`${p.name} — DEM`;
+  document.title=`${p.name} — ${fmt(p.price)} | DEM DAKAR`;
+  // ---- SEO dynamique (meta, canonical, données structurées) ----
+  (function seo(){
+    const url=`https://www.demsn.sn/produit.html?id=${p.id}`;
+    const imgAbs=`https://www.demsn.sn/${p.main}`;
+    const desc=`${p.name} — ${shortDesc} ${fmt(p.price)}. Livraison à Dakar, paiement Wave / Orange Money.`;
+    const setMeta=(name,val)=>{let m=document.querySelector(`meta[name="${name}"]`)||document.querySelector(`meta[property="${name}"]`);if(m)m.setAttribute("content",val);};
+    document.querySelector('meta[name="description"]')?.setAttribute("content",desc);
+    document.getElementById("canonical")?.setAttribute("href",url);
+    setMeta("og:title",`${p.name} — ${fmt(p.price)}`);
+    setMeta("og:description",desc);
+    setMeta("og:url",url);
+    setMeta("og:image",imgAbs);
+    setMeta("twitter:image",imgAbs);
+    const data={ "@context":"https://schema.org","@type":"Product",
+      name:p.name, image:imgAbs, description:desc, brand:{"@type":"Brand",name:"DEM DAKAR"},
+      category:isCap?"Casquette":"T-shirt",
+      offers:{"@type":"Offer",url:url,priceCurrency:"XOF",price:p.price,availability:"https://schema.org/InStock",
+        seller:{"@type":"Organization",name:"DEM DAKAR"}}};
+    let s=document.getElementById("productLd"); if(!s){s=document.createElement("script");s.type="application/ld+json";s.id="productLd";document.head.appendChild(s);}
+    s.textContent=JSON.stringify(data);
+  })();
   root.innerHTML=`
     <div class="pd">
       <div class="pd__gallery">
