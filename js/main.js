@@ -1,62 +1,162 @@
 /* =========================================================
-   DEM — front-end logic
-   Cart (localStorage) · WhatsApp commande · Nav · Produits
+   DEM — front-end logic (bilingue FR / EN)
+   Cart (localStorage) · WhatsApp · Nav · Produits · SEO
+   La langue est détectée via le chemin /en/.
    ========================================================= */
 
-/* ---- CONFIG : à personnaliser ---- */
+/* ---- CONFIG ---- */
 const DEM = {
-  whatsapp: "221780109399",          // numéro WhatsApp (= numéro de commande)
+  whatsapp: "221780109399",
   instagram: "https://www.instagram.com/__demsn__/",
   site: "www.demsn.sn",
   currency: "FCFA",
-  payment: {
-    // Numéros qui reçoivent les paiements
-    wave: "+221 78 010 93 99",
-    orangeMoney: "+221 77 824 53 25",
-    modes: ["Wave", "Orange Money", "Paiement à la livraison"],
-    default: "Paiement à la livraison",
-  },
+  payment: { wave: "+221 78 010 93 99", orangeMoney: "+221 77 824 53 25" },
 };
 
-/* ---- Tailles ---- */
-const SIZES = ["S","M","L","XL","XXL"];
-const fmt = n => n.toLocaleString("fr-FR") + " " + DEM.currency;
+/* ---- Langue ---- */
+const LANG = location.pathname.includes("/en/") ? "en" : "fr";
+const BASE = LANG === "en" ? "https://www.demsn.sn/en" : "https://www.demsn.sn";
+const A = LANG === "en" ? "../" : "";   // préfixe assets pour les pages /en/
 
-/* ---- T-shirts (Drop 01) — manches sans motifs ---- */
+/* ---- Traductions ---- */
+const I18N = {
+  fr: {
+    order:"Commander", orderNow:"Commander maintenant", waWrite:"Écrire sur WhatsApp",
+    chooseSize:"Choisis une taille d'abord.", sizesLabel:"Tailles", oneSize:"Taille unique",
+    size:"Taille", format:"Format", color:"Couleur", addCart:"+ Panier", viewLarge:"⤢ Voir en grand",
+    cartEmptyTitle:"Panier vide", cartEmptySub:"Le mouvement t'attend.", shopNow:"Voir la boutique",
+    remove:"Retirer", payMethod:"Mode de paiement",
+    payModes:["Wave","Orange Money","Paiement à la livraison"], payDefault:"Paiement à la livraison",
+    th:{preview:"Aperçu",artwork:"Tableau",size:"Format",price:"Prix",cart:"Panier"},
+    footerTag:"Un peuple, une ville, un futur",
+    deliveryNote:"Livraison à Dakar · Paiement Wave / OM / à la livraison",
+    home:"Accueil", shop:"Boutique", view:"vue",
+    dropTee:"Drop 001 · DEM DAKAR", dropCap:"Drop 002 · Casquettes",
+    titleTee:"DEM DAKAR", titleCap:"CASQUETTE DAKAR",
+    shortTee:"Un t-shirt premium pour porter Dakar autrement.",
+    shortCap:"Une casquette premium brodée pour porter Dakar tous les jours.",
+    slogan:"Un peuple, une ville, un futur.",
+    typeTee:"T-shirt DEM DAKAR", typeCap:"Casquette DAKAR", typeArt:"Tableau DEM DAKAR",
+    colors:{blanc:"Blanc",noir:"Noir",vert:"Vert",bleu:"Bleu",rouge:"Rouge",jaune:"Jaune"},
+    themes:{"t-renaissance":"Monument de la Renaissance","t-lacrose":"Lac Rose","t-millenaire":"Place du Millénaire","t-carte":"Carte de Dakar"},
+    longTee:`
+      <p>Le t-shirt DEM DAKAR porte les couleurs, les symboles et l'énergie d'une ville en mouvement.</p>
+      <p>Pensé comme une pièce lifestyle, il associe une coupe simple, une identité forte et un design inspiré de Dakar : l'océan, le soleil, les rues, la culture et le mouvement. Manches unies, sans motif.</p>
+      <p style="font-family:var(--font-display);font-size:1.6rem;color:var(--ink)">Un peuple, une ville, un futur.</p>`,
+    longCap:`
+      <p>La casquette DAKAR porte les motifs et l'énergie de la ville : vagues, soleil, chevrons et motifs tissés brodés sur le côté.</p>
+      <p>Coupe baseball, structure premium, broderie haute définition. Une pièce pour tous les jours.</p>
+      <p style="font-family:var(--font-display);font-size:1.6rem;color:var(--ink)">Un peuple, une ville, un futur.</p>`,
+    specTee:`
+      <li>T-shirt unisexe — coupe droite</li>
+      <li>Impression haute définition · manches unies</li>
+      <li>Tailles : S / M / L / XL / XXL</li>
+      <li>Couleurs : blanc, noir, vert, bleu, rouge, jaune</li>
+      <li>Livraison à Dakar · Commande via WhatsApp</li>`,
+    specCap:`
+      <li>Casquette unisexe — coupe baseball</li>
+      <li>Broderie haute définition sur le côté</li>
+      <li>Taille unique réglable</li>
+      <li>Couleurs : noir, bleu, vert, jaune</li>
+      <li>Livraison à Dakar · Commande via WhatsApp</li>`,
+    seoDeliver:"Livraison à Dakar, paiement Wave / Orange Money.",
+    wa:{ cartHello:"Bonjour, je veux commander chez DEM DAKAR :", total:"Total", pay:"Mode de paiement",
+      zone:"Zone de livraison", prodHello:"Bonjour, je veux commander :", color:"Couleur", size:"Taille",
+      qty:"Quantité", artHello:"Bonjour, je veux commander un tableau imprimé DEM DAKAR :",
+      format:"Format", price:"Prix", height:"hauteur 85 cm" },
+  },
+  en: {
+    order:"Order", orderNow:"Order now", waWrite:"Message on WhatsApp",
+    chooseSize:"Please choose a size first.", sizesLabel:"Sizes", oneSize:"One size",
+    size:"Size", format:"Size", color:"Colour", addCart:"+ Cart", viewLarge:"⤢ View large",
+    cartEmptyTitle:"Cart empty", cartEmptySub:"The movement awaits.", shopNow:"Go to shop",
+    remove:"Remove", payMethod:"Payment method",
+    payModes:["Wave","Orange Money","Cash on delivery"], payDefault:"Cash on delivery",
+    th:{preview:"Preview",artwork:"Art print",size:"Size",price:"Price",cart:"Cart"},
+    footerTag:"One people, one city, one future",
+    deliveryNote:"Delivery in Dakar · Wave / OM / cash on delivery",
+    home:"Home", shop:"Shop", view:"view",
+    dropTee:"Drop 001 · DEM DAKAR", dropCap:"Drop 002 · Caps",
+    titleTee:"DEM DAKAR", titleCap:"DAKAR CAP",
+    shortTee:"A premium t-shirt to wear Dakar your way.",
+    shortCap:"A premium embroidered cap to wear Dakar every day.",
+    slogan:"One people, one city, one future.",
+    typeTee:"DEM DAKAR T-shirt", typeCap:"DAKAR Cap", typeArt:"DEM DAKAR Art print",
+    colors:{blanc:"White",noir:"Black",vert:"Green",bleu:"Blue",rouge:"Red",jaune:"Yellow"},
+    themes:{"t-renaissance":"African Renaissance Monument","t-lacrose":"Pink Lake (Lac Rose)","t-millenaire":"Millennium Square","t-carte":"Map of Dakar"},
+    longTee:`
+      <p>The DEM DAKAR t-shirt carries the colours, symbols and energy of a city in motion.</p>
+      <p>Designed as a lifestyle piece, it blends a clean cut, a strong identity and a design inspired by Dakar: the ocean, the sun, the streets, the culture and the movement. Plain sleeves, no pattern.</p>
+      <p style="font-family:var(--font-display);font-size:1.6rem;color:var(--ink)">One people, one city, one future.</p>`,
+    longCap:`
+      <p>The DAKAR cap carries the city's patterns and energy: waves, sun, chevrons and woven motifs embroidered on the side.</p>
+      <p>Baseball cut, premium structure, high-definition embroidery. A piece for every day.</p>
+      <p style="font-family:var(--font-display);font-size:1.6rem;color:var(--ink)">One people, one city, one future.</p>`,
+    specTee:`
+      <li>Unisex t-shirt — straight cut</li>
+      <li>High-definition print · plain sleeves</li>
+      <li>Sizes: S / M / L / XL / XXL</li>
+      <li>Colours: white, black, green, blue, red, yellow</li>
+      <li>Delivery in Dakar · Order via WhatsApp</li>`,
+    specCap:`
+      <li>Unisex cap — baseball cut</li>
+      <li>High-definition side embroidery</li>
+      <li>One size, adjustable</li>
+      <li>Colours: black, blue, green, yellow</li>
+      <li>Delivery in Dakar · Order via WhatsApp</li>`,
+    seoDeliver:"Delivery in Dakar, Wave / Orange Money payment.",
+    wa:{ cartHello:"Hello, I'd like to order from DEM DAKAR:", total:"Total", pay:"Payment method",
+      zone:"Delivery area", prodHello:"Hello, I'd like to order:", color:"Colour", size:"Size",
+      qty:"Quantity", artHello:"Hello, I'd like to order a DEM DAKAR art print:",
+      format:"Size", price:"Price", height:"height 85 cm" },
+  },
+};
+const tx = I18N[LANG];
+
+/* ---- Helpers ---- */
+const SIZES = ["S","M","L","XL","XXL"];
+const ONE_SIZE = "Taille unique";          // jeton interne (panier) — affiché traduit
+const fmt = n => n.toLocaleString("fr-FR") + " " + DEM.currency;
+const sizeDisplay = s => s===ONE_SIZE ? tx.oneSize : s;
+const sizeLabel   = s => s===ONE_SIZE ? tx.oneSize : (/cm|×/.test(s) ? tx.format+" "+s : tx.size+" "+s);
+
+/* ---- T-shirts (Drop 01) ---- */
 const PRODUCTS = [
-  { id:"blanc", color:"Blanc", hex:"#f4efe3", images:["assets/products/blanc.jpg"] },
-  { id:"noir",  color:"Noir",  hex:"#161616", images:["assets/products/noir.jpg"] },
-  { id:"vert",  color:"Vert",  hex:"#1f8f4d", images:["assets/products/vert.jpg"] },
-  { id:"bleu",  color:"Bleu",  hex:"#16307a", images:["assets/products/bleu.jpg"] },
-  { id:"rouge", color:"Rouge", hex:"#e23b2e", images:["assets/products/rouge.jpg"] },
-  { id:"jaune", color:"Jaune", hex:"#f4b51e", images:["assets/products/jaune.jpg"] },
-].map(p=>({ ...p, category:"tshirt", typeLabel:"T-shirt DEM DAKAR",
-  name:`T-shirt DEM DAKAR — ${p.color}`, price:15000, sizes:SIZES, main:p.images[0], alt:p.images[0] }));
+  { id:"blanc", hex:"#f4efe3", images:["assets/products/blanc.jpg"] },
+  { id:"noir",  hex:"#161616", images:["assets/products/noir.jpg"] },
+  { id:"vert",  hex:"#1f8f4d", images:["assets/products/vert.jpg"] },
+  { id:"bleu",  hex:"#16307a", images:["assets/products/bleu.jpg"] },
+  { id:"rouge", hex:"#e23b2e", images:["assets/products/rouge.jpg"] },
+  { id:"jaune", hex:"#f4b51e", images:["assets/products/jaune.jpg"] },
+].map(p=>{ const color=tx.colors[p.id];
+  return { ...p, category:"tshirt", color, typeLabel:tx.typeTee,
+    name:`${tx.typeTee} — ${color}`, price:15000, sizes:SIZES, main:p.images[0], alt:p.images[0] }; });
 
 /* ---- Casquettes (Drop 02) ---- */
 const CAPS = [
-  { id:"cap-noir",  color:"Noir",  hex:"#161616", images:["assets/caps/cap-noir.jpg"] },
-  { id:"cap-bleu",  color:"Bleu",  hex:"#16307a", images:["assets/caps/cap-bleu.jpg","assets/caps/cap-bleu-worn.jpg"] },
-  { id:"cap-vert",  color:"Vert",  hex:"#1f8f4d", images:["assets/caps/cap-vert.jpg","assets/caps/cap-vert-2.jpg"] },
-  { id:"cap-jaune", color:"Jaune", hex:"#f4b51e", images:["assets/caps/cap-jaune.jpg","assets/caps/cap-jaune-worn.jpg"] },
-].map(p=>({ ...p, category:"casquette", typeLabel:"Casquette DAKAR",
-  name:`Casquette DAKAR — ${p.color}`, price:10000, sizes:["Taille unique"], main:p.images[0], alt:p.images[1]||p.images[0] }));
+  { id:"cap-noir",  ck:"noir",  hex:"#161616", images:["assets/caps/cap-noir.jpg"] },
+  { id:"cap-bleu",  ck:"bleu",  hex:"#16307a", images:["assets/caps/cap-bleu.jpg","assets/caps/cap-bleu-worn.jpg"] },
+  { id:"cap-vert",  ck:"vert",  hex:"#1f8f4d", images:["assets/caps/cap-vert.jpg","assets/caps/cap-vert-2.jpg"] },
+  { id:"cap-jaune", ck:"jaune", hex:"#f4b51e", images:["assets/caps/cap-jaune.jpg","assets/caps/cap-jaune-worn.jpg"] },
+].map(p=>{ const color=tx.colors[p.ck];
+  return { ...p, category:"casquette", color, typeLabel:tx.typeCap,
+    name:`${tx.typeCap} — ${color}`, price:10000, sizes:[ONE_SIZE], main:p.images[0], alt:p.images[1]||p.images[0] }; });
 
 const ALL = [...PRODUCTS, ...CAPS];
 const findProduct = id => ALL.find(p => p.id === id) || TIMBRES.find(t => t.id === id);
-const sizeLabel = s => s==="Taille unique" ? "Taille unique" : (/cm|×/.test(s) ? "Format "+s : "Taille "+s);
 
-/* ---- Tableaux imprimés (timbres DEM DAKAR) — hauteur 85 cm, format 68 × 85 cm ---- */
-const TABLEAU_PRICE = 45000;   // prix d'un tableau imprimé 68 × 85 cm
+/* ---- Tableaux imprimés ---- */
+const TABLEAU_PRICE = 45000;
 const TABLEAU_SIZE  = "68 × 85 cm";
 const TIMBRES = [
-  { id:"t-renaissance", theme:"Monument de la Renaissance", serie:"Série Dakar", img:"assets/timbres/renaissance.jpg" },
-  { id:"t-lacrose",     theme:"Lac Rose",                   serie:"Série Dakar", img:"assets/timbres/lacrose.jpg" },
-  { id:"t-millenaire",  theme:"Place du Millénaire",        serie:"Série Dakar", img:"assets/timbres/millenaire.jpg" },
-  { id:"t-carte",       theme:"Carte de Dakar",             serie:"Série Dakar", img:"assets/timbres/carte.jpg" },
-].map(t=>({ ...t,
-  name:`Tableau DEM DAKAR — ${t.theme}`, color:t.theme, typeLabel:"Tableau", category:"tableau",
-  main:t.img, images:[t.img], price:TABLEAU_PRICE, size:TABLEAU_SIZE, sizes:[TABLEAU_SIZE] }));
+  { id:"t-renaissance", img:"assets/timbres/renaissance.jpg" },
+  { id:"t-lacrose",     img:"assets/timbres/lacrose.jpg" },
+  { id:"t-millenaire",  img:"assets/timbres/millenaire.jpg" },
+  { id:"t-carte",       img:"assets/timbres/carte.jpg" },
+].map(t=>{ const theme=tx.themes[t.id];
+  return { ...t, theme, serie:"Série Dakar", name:`${tx.typeArt} — ${theme}`, color:theme,
+    typeLabel:tx.typeArt, category:"tableau", main:t.img, images:[t.img],
+    price:TABLEAU_PRICE, size:TABLEAU_SIZE, sizes:[TABLEAU_SIZE] }; });
 
 /* =========================================================
    CART
@@ -82,20 +182,18 @@ const Cart = {
   total(){ return this.get().reduce((s,i)=>{ const p=findProduct(i.id); return s + (p?p.price:0)*i.qty; },0); },
 
   render(){
-    // badge
     document.querySelectorAll(".cart-count").forEach(el=>{
       const c=this.count(); el.textContent=c; el.setAttribute("data-count",c);
     });
-    // drawer body
     const body=document.getElementById("cartBody");
     const foot=document.getElementById("cartFoot");
     if(!body) return;
     const items=this.get();
     if(!items.length){
       body.innerHTML=`<div class="drawer__empty">
-        <p style="font-family:var(--font-display);font-size:2rem">Panier vide</p>
-        <p style="margin-top:.5rem">Le mouvement t'attend.</p>
-        <a href="boutique.html" class="btn btn--solid" style="margin-top:1.4rem">Voir la boutique</a>
+        <p style="font-family:var(--font-display);font-size:2rem">${tx.cartEmptyTitle}</p>
+        <p style="margin-top:.5rem">${tx.cartEmptySub}</p>
+        <a href="boutique.html" class="btn btn--solid" style="margin-top:1.4rem">${tx.shopNow}</a>
       </div>`;
       if(foot) foot.style.display="none";
       return;
@@ -104,19 +202,19 @@ const Cart = {
     body.innerHTML=items.map(i=>{
       const p=findProduct(i.id); if(!p) return "";
       return `<div class="citem">
-        <img src="${p.main}" alt="${p.name}">
+        <img src="${A}${p.main}" alt="${p.name}">
         <div>
           <div class="citem__t">${p.name}</div>
           <div class="citem__m">${sizeLabel(i.size)} · ${fmt(p.price)}</div>
           <div class="qty">
-            <button aria-label="moins" data-act="dec" data-id="${p.id}" data-size="${i.size}">−</button>
+            <button aria-label="−" data-act="dec" data-id="${p.id}" data-size="${i.size}">−</button>
             <span>${i.qty}</span>
-            <button aria-label="plus" data-act="inc" data-id="${p.id}" data-size="${i.size}">+</button>
+            <button aria-label="+" data-act="inc" data-id="${p.id}" data-size="${i.size}">+</button>
           </div>
         </div>
         <div style="text-align:right">
           <div class="citem__price">${fmt(p.price*i.qty)}</div>
-          <button class="citem__rm" data-act="rm" data-id="${p.id}" data-size="${i.size}">Retirer</button>
+          <button class="citem__rm" data-act="rm" data-id="${p.id}" data-size="${i.size}">${tx.remove}</button>
         </div>
       </div>`;
     }).join("");
@@ -125,13 +223,13 @@ const Cart = {
   },
 
   whatsappMessage(){
-    const items=this.get();
-    let raw="Bonjour, je veux commander chez DEM DAKAR :\n\n";
+    const items=this.get(); const w=tx.wa;
+    let raw=w.cartHello+"\n\n";
     items.forEach(i=>{ const p=findProduct(i.id);
       raw+=`• ${p.typeLabel} ${p.color} — ${sizeLabel(i.size)} × ${i.qty} (${fmt(p.price*i.qty)})\n`; });
-    raw+=`\nTotal : ${fmt(this.total())}\n`;
-    raw+=`Mode de paiement : ${selectedPayment()}\n`;
-    raw+=`Zone de livraison : `;
+    raw+=`\n${w.total} : ${fmt(this.total())}\n`;
+    raw+=`${w.pay} : ${selectedPayment()}\n`;
+    raw+=`${w.zone} : `;
     return encodeURIComponent(raw);
   }
 };
@@ -139,23 +237,23 @@ const Cart = {
 /* ---- Paiement ---- */
 function selectedPayment(){
   const checked=document.querySelector('input[name="payMode"]:checked');
-  return checked ? checked.value : DEM.payment.default;
+  return checked ? checked.value : tx.payDefault;
 }
 function paymentSelectorHTML(){
   return `<div class="pay-select" id="paySelect">
-    <p class="pay-select__label">Mode de paiement</p>
-    ${DEM.payment.modes.map((m,i)=>`
+    <p class="pay-select__label">${tx.payMethod}</p>
+    ${tx.payModes.map(m=>`
       <label class="pay-opt">
-        <input type="radio" name="payMode" value="${m}" ${m===DEM.payment.default?'checked':''}>
+        <input type="radio" name="payMode" value="${m}" ${m===tx.payDefault?'checked':''}>
         <span class="pay-opt__dot"></span>
         <span class="pay-opt__txt">${m}</span>
       </label>`).join("")}
   </div>`;
 }
 
-/* ---- Bloc motifs du logo DEM DAKAR (5 carrés) ---- */
+/* ---- Bloc motifs du logo DEM DAKAR ---- */
 function motifStrip(){
-  return `<svg class="logo-motifs" viewBox="0 0 164 28" height="28" role="img" aria-label="Motifs DEM DAKAR">
+  return `<svg class="logo-motifs" viewBox="0 0 164 28" height="28" role="img" aria-label="DEM DAKAR">
     <g><rect width="28" height="28" rx="2.5" fill="#16307a"/><g fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M5 9q3-3 6 0t6 0t6 0"/><path d="M5 14q3-3 6 0t6 0t6 0"/><path d="M5 19q3-3 6 0t6 0t6 0"/></g></g>
     <g transform="translate(34 0)"><rect width="28" height="28" rx="2.5" fill="#1f8f4d"/><path d="M14 5 16.5 11.5 23 14 16.5 16.5 14 23 11.5 16.5 5 14 11.5 11.5Z" fill="#fff"/></g>
     <g transform="translate(68 0)"><rect width="28" height="28" rx="2.5" fill="#f4b51e"/><g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8 14 14 22 8"/><path d="M6 14 14 20 22 14"/></g></g>
@@ -170,19 +268,19 @@ function closeDrawer(){ const o=document.getElementById("overlay"),d=document.ge
   if(o&&d){o.classList.remove("open");d.classList.remove("open");document.body.style.overflow="";} }
 
 /* =========================================================
-   RENDER : grille produits (générique)
+   RENDER : grille produits
    ========================================================= */
 function renderGrid(targetId, list, limit){
   const wrap=document.getElementById(targetId);
   if(!wrap || !list) return;
   const items = limit ? list.slice(0,limit) : list;
   wrap.innerHTML=items.map(p=>{
-    const sizeLabel = p.category==="casquette" ? "Taille unique" : "Tailles "+p.sizes.join(" / ");
+    const sl = p.category==="casquette" ? tx.oneSize : tx.sizesLabel+" "+p.sizes.join(" / ");
     return `
     <article class="pcard">
       <a class="pcard__media" href="produit.html?id=${p.id}" aria-label="${p.name}">
-        <img class="main" src="${p.main}" alt="${p.name}" loading="lazy">
-        <img class="alt" src="${p.alt}" alt="${p.name} — autre vue" loading="lazy">
+        <img class="main" src="${A}${p.main}" alt="${p.name}" loading="lazy">
+        <img class="alt" src="${A}${p.alt}" alt="${p.name}" loading="lazy">
         <span class="pcard__flag">
           <i style="background:#16307a"></i><i style="background:#1f8f4d"></i>
           <i style="background:#f4b51e"></i><i style="background:#e23b2e"></i>
@@ -191,49 +289,49 @@ function renderGrid(targetId, list, limit){
       <div class="pcard__body">
         <a href="produit.html?id=${p.id}"><h3 class="pcard__name">${p.color}</h3></a>
         <div class="pcard__price">${fmt(p.price)}</div>
-        <div class="pcard__sizes">${sizeLabel}</div>
+        <div class="pcard__sizes">${sl}</div>
         <div class="pcard__actions">
-          <a href="produit.html?id=${p.id}" class="btn btn--solid btn--block">Commander</a>
+          <a href="produit.html?id=${p.id}" class="btn btn--solid btn--block">${tx.order}</a>
           <a class="btn btn--wa btn--block" target="_blank" rel="noopener"
              href="https://wa.me/${DEM.whatsapp}?text=${waProductMsg(p)}">${waIcon()} WhatsApp</a>
         </div>
       </div>
     </article>`;}).join("");
 }
-function waProductMsg(p){
+function waProductMsg(p){ const w=tx.wa;
   return encodeURIComponent(
-`Bonjour, je veux commander : ${p.name}.
-Couleur : ${p.color}
-Taille :${p.category==="casquette"?" Taille unique":""}
-Quantité : 1
-Zone de livraison :`);
+`${w.prodHello} ${p.name}.
+${w.color} : ${p.color}
+${w.size} :${p.category==="casquette"?" "+tx.oneSize:""}
+${w.qty} : 1
+${w.zone} :`);
 }
 
 /* =========================================================
-   RENDER : tableau Timbres à imprimer
+   RENDER : tableau Tableaux
    ========================================================= */
 function renderTimbresTable(targetId){
   const wrap=document.getElementById(targetId);
   if(!wrap) return;
+  const h=tx.th;
   wrap.innerHTML=`
     <table class="tbl-timbres">
       <thead>
-        <tr><th>Aperçu</th><th>Tableau</th><th class="col-serie">Format</th><th>Prix</th><th class="col-act">Panier</th></tr>
+        <tr><th>${h.preview}</th><th>${h.artwork}</th><th class="col-serie">${h.size}</th><th>${h.price}</th><th class="col-act">${h.cart}</th></tr>
       </thead>
       <tbody>
         ${TIMBRES.map((t,i)=>{
           return `<tr>
-            <td class="tbl-thumb" data-lbx="${i}" title="Voir en grand"><img src="${t.img}" alt="Tableau ${t.theme}" loading="lazy"><span class="tbl-thumb__zoom">⤢</span></td>
-            <td><span class="tbl-name">${t.theme}</span><span class="tbl-serie-m">${t.size} · ${t.serie}</span><button class="tbl-zoom" data-lbx="${i}">⤢ Voir en grand</button></td>
+            <td class="tbl-thumb" data-lbx="${i}" title="${tx.viewLarge}"><img src="${A}${t.img}" alt="${t.theme}" loading="lazy"><span class="tbl-thumb__zoom">⤢</span></td>
+            <td><span class="tbl-name">${t.theme}</span><span class="tbl-serie-m">${t.size} · ${t.serie}</span><button class="tbl-zoom" data-lbx="${i}">${tx.viewLarge}</button></td>
             <td class="col-serie">${t.size}</td>
             <td class="tbl-price">${fmt(t.price)}</td>
-            <td class="col-act"><button class="btn btn--solid btn--sm" data-add="${t.id}">+ Panier</button></td>
+            <td class="col-act"><button class="btn btn--solid btn--sm" data-add="${t.id}">${tx.addCart}</button></td>
           </tr>`;
         }).join("")}
       </tbody>
     </table>`;
 
-  // délégation : miniature -> aperçu plein écran · bouton -> ajout panier
   wrap.addEventListener("click",e=>{
     const add=e.target.closest("[data-add]");
     if(add){ Cart.add(add.dataset.add, TABLEAU_SIZE, 1); return; }
@@ -243,7 +341,7 @@ function renderTimbresTable(targetId){
 }
 
 /* =========================================================
-   LIGHTBOX : aperçu grand format des tableaux
+   LIGHTBOX
    ========================================================= */
 let lbxIndex=0;
 function buildLightbox(){
@@ -251,19 +349,19 @@ function buildLightbox(){
   const el=document.createElement("div");
   el.className="lbx"; el.id="tableauLbx"; el.setAttribute("aria-hidden","true");
   el.innerHTML=`
-    <button class="lbx__close" data-lbx-close aria-label="Fermer">&times;</button>
-    <button class="lbx__nav lbx__prev" data-lbx-prev aria-label="Précédent">&#8249;</button>
+    <button class="lbx__close" data-lbx-close aria-label="×">&times;</button>
+    <button class="lbx__nav lbx__prev" data-lbx-prev aria-label="‹">&#8249;</button>
     <figure class="lbx__fig">
       <img id="lbxImg" src="" alt="">
       <figcaption class="lbx__cap">
         <div><span class="lbx__name" id="lbxName"></span><span class="lbx__meta" id="lbxMeta"></span></div>
         <div class="lbx__actions">
-          <button class="btn btn--solid" data-lbx-add>+ Panier</button>
+          <button class="btn btn--solid" data-lbx-add>${tx.addCart}</button>
           <a class="btn btn--wa" id="lbxBuy" target="_blank" rel="noopener">${waIcon()} WhatsApp</a>
         </div>
       </figcaption>
     </figure>
-    <button class="lbx__nav lbx__next" data-lbx-next aria-label="Suivant">&#8250;</button>`;
+    <button class="lbx__nav lbx__next" data-lbx-next aria-label="›">&#8250;</button>`;
   document.body.appendChild(el);
   el.addEventListener("click",e=>{
     if(e.target.closest("[data-lbx-add]")){ Cart.add(TIMBRES[lbxIndex].id, TABLEAU_SIZE, 1); closeLightbox(); return; }
@@ -279,15 +377,15 @@ function buildLightbox(){
   });
 }
 function showLightbox(i){
-  const n=TIMBRES.length; lbxIndex=(i%n+n)%n; const t=TIMBRES[lbxIndex];
+  const n=TIMBRES.length; lbxIndex=(i%n+n)%n; const t=TIMBRES[lbxIndex]; const w=tx.wa;
   const msg=encodeURIComponent(
-`Bonjour, je veux commander un tableau imprimé DEM DAKAR : ${t.theme}.
-Format : ${t.size} (hauteur 85 cm)
-Prix : ${fmt(t.price)}
-Quantité : 1
-Zone de livraison :`);
-  document.getElementById("lbxImg").src=t.img;
-  document.getElementById("lbxImg").alt="Tableau "+t.theme;
+`${w.artHello} ${t.theme}.
+${w.format} : ${t.size} (${w.height})
+${w.price} : ${fmt(t.price)}
+${w.qty} : 1
+${w.zone} :`);
+  document.getElementById("lbxImg").src=A+t.img;
+  document.getElementById("lbxImg").alt=t.theme;
   document.getElementById("lbxName").textContent=t.theme;
   document.getElementById("lbxMeta").textContent=`${t.size} · ${fmt(t.price)}`;
   document.getElementById("lbxBuy").href=`https://wa.me/${DEM.whatsapp}?text=${msg}`;
@@ -313,40 +411,16 @@ function initProductPage(){
   const imgs=p.images;
   const isCap=p.category==="casquette";
   const siblings=isCap?CAPS:PRODUCTS;
-  const dropLabel=isCap?"Drop 002 · Casquettes":"Drop 001 · DEM DAKAR";
-  const titleType=isCap?"CASQUETTE DAKAR":"DEM DAKAR";
-  const shortDesc=isCap
-    ? "Une casquette premium brodée pour porter Dakar tous les jours."
-    : "Un t-shirt premium pour porter Dakar autrement.";
+  const dropLabel=isCap?tx.dropCap:tx.dropTee;
+  const titleType=isCap?tx.titleCap:tx.titleTee;
+  const shortDesc=isCap?tx.shortCap:tx.shortTee;
   let sel={ size: p.sizes.length===1 ? p.sizes[0] : null, color:p.id };
 
-  const longCap=`
-    <p>La casquette DAKAR porte les motifs et l'énergie de la ville : vagues, soleil, chevrons et motifs tissés brodés sur le côté.</p>
-    <p>Coupe baseball, structure premium, broderie haute définition. Une pièce pour tous les jours.</p>
-    <p style="font-family:var(--font-display);font-size:1.6rem;color:var(--ink)">Un peuple, une ville, un futur.</p>`;
-  const longTee=`
-    <p>Le t-shirt DEM DAKAR porte les couleurs, les symboles et l'énergie d'une ville en mouvement.</p>
-    <p>Pensé comme une pièce lifestyle, il associe une coupe simple, une identité forte et un design inspiré de Dakar : l'océan, le soleil, les rues, la culture et le mouvement. Manches unies, sans motif.</p>
-    <p style="font-family:var(--font-display);font-size:1.6rem;color:var(--ink)">Un peuple, une ville, un futur.</p>`;
-  const specCap=`
-    <li>Casquette unisexe — coupe baseball</li>
-    <li>Broderie haute définition sur le côté</li>
-    <li>Taille unique réglable</li>
-    <li>Couleurs : bleu, vert, jaune</li>
-    <li>Livraison à Dakar · Commande via WhatsApp</li>`;
-  const specTee=`
-    <li>T-shirt unisexe — coupe droite</li>
-    <li>Impression haute définition · manches unies</li>
-    <li>Tailles : S / M / L / XL / XXL</li>
-    <li>Couleurs : blanc, noir, vert, bleu, rouge, jaune</li>
-    <li>Livraison à Dakar · Commande via WhatsApp</li>`;
-
   document.title=`${p.name} — ${fmt(p.price)} | DEM DAKAR`;
-  // ---- SEO dynamique (meta, canonical, données structurées) ----
   (function seo(){
-    const url=`https://www.demsn.sn/produit.html?id=${p.id}`;
+    const url=`${BASE}/produit.html?id=${p.id}`;
     const imgAbs=`https://www.demsn.sn/${p.main}`;
-    const desc=`${p.name} — ${shortDesc} ${fmt(p.price)}. Livraison à Dakar, paiement Wave / Orange Money.`;
+    const desc=`${p.name} — ${shortDesc} ${fmt(p.price)}. ${tx.seoDeliver}`;
     const setMeta=(name,val)=>{let m=document.querySelector(`meta[name="${name}"]`)||document.querySelector(`meta[property="${name}"]`);if(m)m.setAttribute("content",val);};
     document.querySelector('meta[name="description"]')?.setAttribute("content",desc);
     document.getElementById("canonical")?.setAttribute("href",url);
@@ -357,7 +431,7 @@ function initProductPage(){
     setMeta("twitter:image",imgAbs);
     const data={ "@context":"https://schema.org","@type":"Product",
       name:p.name, image:imgAbs, description:desc, brand:{"@type":"Brand",name:"DEM DAKAR"},
-      category:isCap?"Casquette":"T-shirt",
+      category:isCap?"Cap":"T-shirt",
       offers:{"@type":"Offer",url:url,priceCurrency:"XOF",price:p.price,availability:"https://schema.org/InStock",
         seller:{"@type":"Organization",name:"DEM DAKAR"}}};
     let s=document.getElementById("productLd"); if(!s){s=document.createElement("script");s.type="application/ld+json";s.id="productLd";document.head.appendChild(s);}
@@ -366,29 +440,29 @@ function initProductPage(){
   root.innerHTML=`
     <div class="pd">
       <div class="pd__gallery">
-        <div class="pd__main"><img id="pdMain" src="${imgs[0]}" alt="${p.name}"></div>
+        <div class="pd__main"><img id="pdMain" src="${A}${imgs[0]}" alt="${p.name}"></div>
         ${imgs.length>1?`<div class="pd__thumbs" id="pdThumbs">
-          ${imgs.map((src,i)=>`<button class="pd__thumb ${i===0?'is-active':''}" data-src="${src}"><img src="${src}" alt="vue ${i+1}"></button>`).join("")}
+          ${imgs.map((src,i)=>`<button class="pd__thumb ${i===0?'is-active':''}" data-src="${A}${src}"><img src="${A}${src}" alt="${tx.view} ${i+1}"></button>`).join("")}
         </div>`:``}
       </div>
       <div class="pd__info">
-        <p class="breadcrumb"><a href="index.html">Accueil</a> / <a href="boutique.html">Boutique</a> / ${p.color}</p>
+        <p class="breadcrumb"><a href="index.html">${tx.home}</a> / <a href="boutique.html">${tx.shop}</a> / ${p.color}</p>
         <span class="eyebrow">${dropLabel}</span>
         <h1 style="font-size:clamp(2.4rem,6.5vw,4.2rem);margin-top:.4rem">${titleType}<br><span style="color:var(--red)">${p.color}</span></h1>
         <p class="lead" style="margin-top:1rem">${shortDesc}</p>
         <div class="pd__price">${fmt(p.price)}</div>
 
         <div class="pd__opt">
-          <h5>Couleur — ${p.color}</h5>
+          <h5>${tx.color} — ${p.color}</h5>
           <div class="color-row" id="pdColors">
             ${siblings.map(c=>`<a href="produit.html?id=${c.id}" class="color-dot ${c.id===p.id?'is-active':''}" title="${c.color}" style="background:${c.hex}"></a>`).join("")}
           </div>
         </div>
 
         <div class="pd__opt">
-          <h5>${isCap?"Taille":"Taille"}</h5>
+          <h5>${tx.size}</h5>
           <div class="size-row" id="pdSizes">
-            ${p.sizes.map(s=>`<button class="size ${sel.size===s?'is-active':''}" data-size="${s}">${s}</button>`).join("")}
+            ${p.sizes.map(s=>`<button class="size ${sel.size===s?'is-active':''}" data-size="${s}">${sizeDisplay(s)}</button>`).join("")}
           </div>
         </div>
 
@@ -396,32 +470,33 @@ function initProductPage(){
           <div class="qty" style="margin-top:0">
             <button id="qtyDec">−</button><span id="qtyVal">1</span><button id="qtyInc">+</button>
           </div>
-          <span style="font-size:.85rem;color:var(--muted)">Livraison à Dakar · Paiement Wave / OM / à la livraison</span>
+          <span style="font-size:.85rem;color:var(--muted)">${tx.deliveryNote}</span>
         </div>
 
         <div class="pd__buy">
-          <button class="btn btn--solid btn--lg btn--block" id="addBtn">Commander maintenant</button>
-          <a class="btn btn--wa btn--lg btn--block" id="waBtn" target="_blank" rel="noopener" href="#">${waIcon()} Écrire sur WhatsApp</a>
-          <p id="selWarn" style="display:none;color:var(--red);font-size:.82rem;font-weight:700">Choisis une taille d'abord.</p>
+          <button class="btn btn--solid btn--lg btn--block" id="addBtn">${tx.orderNow}</button>
+          <a class="btn btn--wa btn--lg btn--block" id="waBtn" target="_blank" rel="noopener" href="#">${waIcon()} ${tx.waWrite}</a>
+          <p id="selWarn" style="display:none;color:var(--red);font-size:.82rem;font-weight:700">${tx.chooseSize}</p>
         </div>
 
         <div class="pd__meta">
-          <div class="longdesc">${isCap?longCap:longTee}</div>
-          <ul style="margin-top:1.4rem">${isCap?specCap:specTee}</ul>
+          <div class="longdesc">${isCap?tx.longCap:tx.longTee}</div>
+          <ul style="margin-top:1.4rem">${isCap?tx.specCap:tx.specTee}</ul>
         </div>
       </div>
     </div>`;
 
   let qty=1;
   const $=s=>root.querySelector(s);
+  const w=tx.wa;
   const updateWa=()=>{
     const msg=encodeURIComponent(
-`Bonjour, je veux commander : ${p.name}.
-Couleur : ${p.color}
-Taille : ${sel.size||"—"}
-Quantité : ${qty}
-Mode de paiement :
-Zone de livraison :`);
+`${w.prodHello} ${p.name}.
+${w.color} : ${p.color}
+${w.size} : ${sel.size?sizeDisplay(sel.size):"—"}
+${w.qty} : ${qty}
+${w.pay} :
+${w.zone} :`);
     $("#waBtn").href=`https://wa.me/${DEM.whatsapp}?text=${msg}`;
   };
   updateWa();
@@ -451,18 +526,22 @@ Zone de livraison :`);
 function initOrderForm(){
   const form=document.getElementById("orderForm");
   if(!form) return;
+  const w=tx.wa;
+  const hello = LANG==="en" ? "Hello, I'd like to order from DEM DAKAR." : "Bonjour, je veux commander chez DEM DAKAR.";
+  const nameL = LANG==="en" ? "Name" : "Nom";
+  const msgL  = LANG==="en" ? "Message" : "Message";
   form.addEventListener("submit",e=>{
     e.preventDefault();
     const f=new FormData(form);
     const msg=encodeURIComponent(
-`Bonjour, je veux commander un t-shirt DEM DAKAR.
-Nom : ${f.get("nom")||""}
-Couleur : ${f.get("couleur")||""}
-Taille : ${f.get("taille")||""}
-Quantité : ${f.get("quantite")||"1"}
-Mode de paiement : ${f.get("paiement")||""}
-Zone de livraison : ${f.get("zone")||""}
-Message : ${f.get("message")||"—"}`);
+`${hello}
+${nameL} : ${f.get("nom")||""}
+${w.color} : ${f.get("couleur")||""}
+${w.size} : ${f.get("taille")||""}
+${w.qty} : ${f.get("quantite")||"1"}
+${w.pay} : ${f.get("paiement")||""}
+${w.zone} : ${f.get("zone")||""}
+${msgL} : ${f.get("message")||"—"}`);
     window.open(`https://wa.me/${DEM.whatsapp}?text=${msg}`,"_blank");
   });
 }
@@ -470,52 +549,70 @@ Message : ${f.get("message")||"—"}`);
 /* =========================================================
    NAV mobile + global wiring
    ========================================================= */
+/* ---- Langue : sélecteur + hreflang ---- */
+function initLang(){
+  let page=(location.pathname.split("/").pop()||"index.html");
+  if(!page.endsWith(".html")) page="index.html";
+  const qs=location.search||"";
+  // sélecteur visible
+  const actions=document.querySelector(".nav__actions");
+  if(actions && !actions.querySelector(".lang-switch")){
+    const frHref = LANG==="en" ? `../${page}${qs}` : `${page}${qs}`;
+    const enHref = LANG==="en" ? `${page}${qs}` : `en/${page}${qs}`;
+    const sw=document.createElement("div");
+    sw.className="lang-switch";
+    sw.innerHTML = LANG==="en"
+      ? `<a href="${frHref}">FR</a><span class="sep">·</span><span class="lang-active">EN</span>`
+      : `<span class="lang-active">FR</span><span class="sep">·</span><a href="${enHref}">EN</a>`;
+    actions.insertBefore(sw, actions.firstChild);
+  }
+  // hreflang (SEO international)
+  if(!document.querySelector('link[rel="alternate"][hreflang]')){
+    const frAbs=`https://www.demsn.sn/${page}${qs}`;
+    const enAbs=`https://www.demsn.sn/en/${page}${qs}`;
+    const add=(hl,href)=>{const l=document.createElement("link");l.rel="alternate";l.setAttribute("hreflang",hl);l.href=href;document.head.appendChild(l);};
+    add("fr",frAbs); add("en",enAbs); add("x-default",frAbs);
+  }
+}
+
 function initChrome(){
-  // année footer
+  initLang();
   document.querySelectorAll("[data-year]").forEach(el=>el.textContent=new Date().getFullYear());
-  // liens whatsapp / instagram dynamiques
   document.querySelectorAll("[data-wa]").forEach(a=>{
     const base=`https://wa.me/${DEM.whatsapp}`;
     a.href = a.dataset.wa ? `${base}?text=${encodeURIComponent(a.dataset.wa)}` : base;
   });
   document.querySelectorAll("[data-ig]").forEach(a=>a.href=DEM.instagram);
-  // bloc motifs (logo) dans le pied de page
   document.querySelectorAll(".footer-brand").forEach(fb=>{
     if(fb.querySelector(".logo-motifs")) return;
-    const html = motifStrip() + '<div class="footer-tag">Un peuple, une ville, un futur</div>';
+    const html = motifStrip() + `<div class="footer-tag">${tx.footerTag}</div>`;
     const payRow = fb.querySelector(".pay-row");
     if(payRow) payRow.insertAdjacentHTML("beforebegin", html);
     else fb.insertAdjacentHTML("beforeend", html);
   });
-  // numéros de paiement dynamiques
   document.querySelectorAll("[data-pay-wave]").forEach(el=>el.textContent=DEM.payment.wave);
   document.querySelectorAll("[data-pay-om]").forEach(el=>el.textContent=DEM.payment.orangeMoney);
 
-  // burger
   const burger=document.getElementById("burger"),links=document.getElementById("navLinks");
   if(burger&&links){
     burger.addEventListener("click",()=>{burger.classList.toggle("open");links.classList.toggle("open");});
     links.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{burger.classList.remove("open");links.classList.remove("open");}));
   }
-  // active link
   const page=(location.pathname.split("/").pop()||"index.html");
   document.querySelectorAll(".nav__links a").forEach(a=>{
     if(a.getAttribute("href")===page) a.classList.add("is-active");
   });
 
-  // injecte le sélecteur de paiement dans le panier
   const foot=document.getElementById("cartFoot");
   if(foot && !foot.querySelector("#paySelect")){
     foot.querySelector(".drawer__total")?.insertAdjacentHTML("afterend", paymentSelectorHTML());
   }
 
-  // cart open/close
   document.querySelectorAll("[data-open-cart]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();Cart.render();openDrawer();}));
   document.getElementById("overlay")?.addEventListener("click",closeDrawer);
   document.getElementById("cartClose")?.addEventListener("click",closeDrawer);
   document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer();});
 
-  // cart body interactions (delegate)
   document.getElementById("cartBody")?.addEventListener("click",e=>{
     const b=e.target.closest("button[data-act]"); if(!b)return;
     const {act,id,size}=b.dataset;
@@ -524,7 +621,6 @@ function initChrome(){
     if(act==="dec")Cart.setQty(id,size,line.qty-1);
     if(act==="rm")Cart.remove(id,size);
   });
-  // checkout via whatsapp
   document.getElementById("cartCheckout")?.addEventListener("click",()=>{
     if(!Cart.count())return;
     window.open(`https://wa.me/${DEM.whatsapp}?text=${Cart.whatsappMessage()}`,"_blank");
@@ -535,11 +631,11 @@ function initChrome(){
 document.addEventListener("DOMContentLoaded",()=>{
   initChrome();
   Cart.render();
-  renderGrid("shopGrid", PRODUCTS);      // boutique — t-shirts
-  renderGrid("homeGrid", PRODUCTS, 6);   // accueil — t-shirts
-  renderGrid("capsGrid", CAPS);          // boutique + accueil — casquettes
-  renderGrid("homeCapsGrid", CAPS);      // accueil — casquettes
-  renderTimbresTable("timbresTable");    // boutique — timbres à imprimer
+  renderGrid("shopGrid", PRODUCTS);
+  renderGrid("homeGrid", PRODUCTS, 6);
+  renderGrid("capsGrid", CAPS);
+  renderGrid("homeCapsGrid", CAPS);
+  renderTimbresTable("timbresTable");
   initProductPage();
   initOrderForm();
 });

@@ -1,17 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.demsn.sn/</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://www.demsn.sn/boutique.html</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.demsn.sn/histoire.html</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.demsn.sn/contact.html</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.demsn.sn/produit.html?id=blanc</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.demsn.sn/produit.html?id=noir</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.demsn.sn/produit.html?id=vert</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.demsn.sn/produit.html?id=bleu</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.demsn.sn/produit.html?id=rouge</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.demsn.sn/produit.html?id=jaune</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.demsn.sn/produit.html?id=cap-noir</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.demsn.sn/produit.html?id=cap-bleu</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.demsn.sn/produit.html?id=cap-vert</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.demsn.sn/produit.html?id=cap-jaune</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://www.demsn.sn/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/boutique.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/boutique.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/boutique.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/boutique.html"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/boutique.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/boutique.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/boutique.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/boutique.html"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/histoire.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/histoire.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/histoire.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/histoire.html"/>
+    <lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/histoire.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/histoire.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/histoire.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/histoire.html"/>
+    <lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/contact.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/contact.html"/>
+    <lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/contact.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/contact.html"/>
+    <lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/produit.html?id=blanc</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=blanc"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=blanc"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=blanc"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/produit.html?id=blanc</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=blanc"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=blanc"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=blanc"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/produit.html?id=noir</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=noir"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=noir"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=noir"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/produit.html?id=noir</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=noir"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=noir"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=noir"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/produit.html?id=vert</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=vert"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=vert"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=vert"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/produit.html?id=vert</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=vert"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=vert"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=vert"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/produit.html?id=bleu</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=bleu"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=bleu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=bleu"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/produit.html?id=bleu</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=bleu"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=bleu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=bleu"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/produit.html?id=rouge</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=rouge"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=rouge"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=rouge"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/produit.html?id=rouge</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=rouge"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=rouge"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=rouge"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/produit.html?id=jaune</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=jaune"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=jaune"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=jaune"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/produit.html?id=jaune</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=jaune"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=jaune"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=jaune"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/produit.html?id=cap-noir</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=cap-noir"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=cap-noir"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=cap-noir"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/produit.html?id=cap-noir</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=cap-noir"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=cap-noir"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=cap-noir"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/produit.html?id=cap-bleu</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=cap-bleu"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=cap-bleu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=cap-bleu"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/produit.html?id=cap-bleu</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=cap-bleu"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=cap-bleu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=cap-bleu"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/produit.html?id=cap-vert</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=cap-vert"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=cap-vert"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=cap-vert"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/produit.html?id=cap-vert</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=cap-vert"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=cap-vert"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=cap-vert"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/produit.html?id=cap-jaune</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=cap-jaune"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=cap-jaune"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=cap-jaune"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.demsn.sn/en/produit.html?id=cap-jaune</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.demsn.sn/produit.html?id=cap-jaune"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.demsn.sn/en/produit.html?id=cap-jaune"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.demsn.sn/produit.html?id=cap-jaune"/>
+    <lastmod>2026-06-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>
+  </url>
 </urlset>
