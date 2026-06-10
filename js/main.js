@@ -627,9 +627,29 @@ function initChrome(){
   });
 }
 
+/* ---- Diaporama hero ---- */
+function initHeroSlider(){
+  const slides=[...document.querySelectorAll(".hero-slide")];
+  if(slides.length<2) return;
+  const dotsWrap=document.getElementById("heroDots");
+  let idx=0, timer;
+  if(dotsWrap){
+    dotsWrap.innerHTML=slides.map((_,i)=>`<button class="hero-dot ${i===0?'is-active':''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`).join("");
+  }
+  const go=i=>{
+    idx=(i+slides.length)%slides.length;
+    slides.forEach((s,j)=>s.classList.toggle("is-active",j===idx));
+    dotsWrap?.querySelectorAll(".hero-dot").forEach((d,j)=>d.classList.toggle("is-active",j===idx));
+  };
+  const start=()=>{ timer=setInterval(()=>go(idx+1),4500); };
+  start();
+  dotsWrap?.addEventListener("click",e=>{ const b=e.target.closest("[data-i]"); if(!b)return; clearInterval(timer); go(+b.dataset.i); start(); });
+}
+
 /* ---- boot ---- */
 document.addEventListener("DOMContentLoaded",()=>{
   initChrome();
+  initHeroSlider();
   Cart.render();
   renderGrid("shopGrid", PRODUCTS);
   renderGrid("homeGrid", PRODUCTS, 6);
