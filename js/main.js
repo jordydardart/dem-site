@@ -340,6 +340,35 @@ function renderTimbresTable(targetId){
   });
 }
 
+/* ---- RENDER : tableaux en cartes (comme les t-shirts) ---- */
+function renderTableaux(targetId, limit){
+  const wrap=document.getElementById(targetId);
+  if(!wrap) return;
+  const list = limit ? TIMBRES.slice(0,limit) : TIMBRES;
+  wrap.innerHTML=list.map((t,i)=>`
+    <article class="pcard">
+      <a class="pcard__media pcard__media--zoom" data-lbx="${i}" aria-label="${t.theme}">
+        <img class="main" src="${A}${t.img}" alt="Tableau ${t.theme}" loading="lazy">
+        <span class="pcard__zoom">⤢</span>
+      </a>
+      <div class="pcard__body">
+        <h3 class="pcard__name">${t.theme}</h3>
+        <div class="pcard__price">${fmt(t.price)}</div>
+        <div class="pcard__sizes">${tx.th.artwork} · ${t.size}</div>
+        <div class="pcard__actions">
+          <button class="btn btn--solid btn--block" data-add="${t.id}">${tx.addCart}</button>
+          <button class="btn btn--ghost btn--block" data-lbx="${i}">${tx.viewLarge}</button>
+        </div>
+      </div>
+    </article>`).join("");
+  wrap.addEventListener("click",e=>{
+    const add=e.target.closest("[data-add]");
+    if(add){ Cart.add(add.dataset.add, TABLEAU_SIZE, 1); return; }
+    const z=e.target.closest("[data-lbx]");
+    if(z){ e.preventDefault(); openLightbox(+z.dataset.lbx); }
+  });
+}
+
 /* =========================================================
    LIGHTBOX
    ========================================================= */
@@ -655,7 +684,9 @@ document.addEventListener("DOMContentLoaded",()=>{
   renderGrid("homeGrid", PRODUCTS, 6);
   renderGrid("capsGrid", CAPS);
   renderGrid("homeCapsGrid", CAPS);
-  renderTimbresTable("timbresTable");
+  renderTableaux("tableauxGrid");       // boutique — tableaux en cartes
+  renderTableaux("homeTableauxGrid");   // accueil — tableaux en cartes
+  renderTimbresTable("timbresTable");   // (compat. ancien tableau si présent)
   initProductPage();
   initOrderForm();
 });
