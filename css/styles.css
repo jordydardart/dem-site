@@ -217,7 +217,7 @@ h3{font-size:clamp(1.6rem,3.4vw,2.4rem)}
 /* ---------- Communauté ---------- */
 .community{background:var(--cream)}
 .comm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.comm-grid figure{position:relative;aspect-ratio:1;overflow:hidden;border-radius:var(--radius);background:#ddd}
+.comm-grid figure{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:var(--radius);background:#ddd}
 .comm-grid img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
 .comm-grid figure:hover img{transform:scale(1.06)}
 .hashtags{display:flex;gap:1.4rem;flex-wrap:wrap;margin-top:1.4rem}
