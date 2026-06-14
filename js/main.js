@@ -25,7 +25,7 @@ const I18N = {
     chooseSize:"Choisis une taille d'abord.", sizesLabel:"Tailles", oneSize:"Taille unique",
     size:"Taille", format:"Format", color:"Couleur", addCart:"+ Panier", viewLarge:"⤢ Voir en grand",
     cartEmptyTitle:"Panier vide", cartEmptySub:"Le mouvement t'attend.", shopNow:"Voir la boutique",
-    remove:"Retirer", payMethod:"Mode de paiement",
+    bestseller:"Best-seller", remove:"Retirer", payMethod:"Mode de paiement",
     payModes:["Wave","Orange Money","Paiement à la livraison"], payDefault:"Paiement à la livraison",
     th:{preview:"Aperçu",artwork:"Tableau",size:"Format",price:"Prix",cart:"Panier"},
     footerTag:"Un peuple, une ville, un futur",
@@ -70,7 +70,7 @@ const I18N = {
     chooseSize:"Please choose a size first.", sizesLabel:"Sizes", oneSize:"One size",
     size:"Size", format:"Size", color:"Colour", addCart:"+ Cart", viewLarge:"⤢ View large",
     cartEmptyTitle:"Cart empty", cartEmptySub:"The movement awaits.", shopNow:"Go to shop",
-    remove:"Remove", payMethod:"Payment method",
+    bestseller:"Best-seller", remove:"Remove", payMethod:"Payment method",
     payModes:["Wave","Orange Money","Cash on delivery"], payDefault:"Cash on delivery",
     th:{preview:"Preview",artwork:"Art print",size:"Size",price:"Price",cart:"Cart"},
     footerTag:"One people, one city, one future",
@@ -122,7 +122,7 @@ const sizeLabel   = s => s===ONE_SIZE ? tx.oneSize : (/cm|×/.test(s) ? tx.forma
 
 /* ---- T-shirts (Drop 01) ---- */
 const PRODUCTS = [
-  { id:"blanc", hex:"#f4efe3", images:["assets/products/blanc.jpg"] },
+  { id:"blanc", hex:"#f4efe3", images:["assets/products/blanc.jpg"], bestseller:true },
   { id:"noir",  hex:"#161616", images:["assets/products/noir.jpg"] },
   { id:"vert",  hex:"#1f8f4d", images:["assets/products/vert.jpg"] },
   { id:"bleu",  hex:"#16307a", images:["assets/products/bleu.jpg"] },
@@ -281,6 +281,7 @@ function renderGrid(targetId, list, limit){
       <a class="pcard__media" href="produit.html?id=${p.id}" aria-label="${p.name}">
         <img class="main" src="${A}${p.main}" alt="${p.name}" loading="lazy">
         <img class="alt" src="${A}${p.alt}" alt="${p.name}" loading="lazy">
+        ${p.bestseller?`<span class="pcard__badge">★ ${tx.bestseller}</span>`:""}
         <span class="pcard__flag">
           <i style="background:#16307a"></i><i style="background:#1f8f4d"></i>
           <i style="background:#f4b51e"></i><i style="background:#e23b2e"></i>
@@ -476,7 +477,7 @@ function initProductPage(){
       </div>
       <div class="pd__info">
         <p class="breadcrumb"><a href="index.html">${tx.home}</a> / <a href="boutique.html">${tx.shop}</a> / ${p.color}</p>
-        <span class="eyebrow">${dropLabel}</span>
+        <span class="eyebrow">${dropLabel}</span>${p.bestseller?` <span class="pd-badge">★ ${tx.bestseller}</span>`:""}
         <h1 style="font-size:clamp(2.4rem,6.5vw,4.2rem);margin-top:.4rem">${titleType}<br><span style="color:var(--red)">${p.color}</span></h1>
         <p class="lead" style="margin-top:1rem">${shortDesc}</p>
         <div class="pd__price">${fmt(p.price)}</div>
@@ -661,15 +662,19 @@ function initHeroSlider(){
   const slides=[...document.querySelectorAll(".hero-slide")];
   if(slides.length<2) return;
   const dotsWrap=document.getElementById("heroDots");
+  const blur=document.getElementById("heroBlur");
   let idx=0, timer;
   if(dotsWrap){
     dotsWrap.innerHTML=slides.map((_,i)=>`<button class="hero-dot ${i===0?'is-active':''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`).join("");
   }
+  const setBlur=()=>{ if(blur) blur.style.backgroundImage=`url("${slides[idx].getAttribute("src")}")`; };
   const go=i=>{
     idx=(i+slides.length)%slides.length;
     slides.forEach((s,j)=>s.classList.toggle("is-active",j===idx));
     dotsWrap?.querySelectorAll(".hero-dot").forEach((d,j)=>d.classList.toggle("is-active",j===idx));
+    setBlur();
   };
+  setBlur();
   const start=()=>{ timer=setInterval(()=>go(idx+1),4500); };
   start();
   dotsWrap?.addEventListener("click",e=>{ const b=e.target.closest("[data-i]"); if(!b)return; clearInterval(timer); go(+b.dataset.i); start(); });
