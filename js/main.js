@@ -452,7 +452,22 @@ function waIcon(){ return `<svg viewBox="0 0 24 24" fill="currentColor" width="1
    Ajoute ici les VRAIS avis, par id produit. Exemple :
    blanc:[{name:"Awa D.", city:"Dakar", stars:5, text:"Qualité top, livraison rapide !"}],
    Tant qu'un produit n'a pas d'avis, une invitation s'affiche. */
-const REVIEWS = {};
+const _TEE_REVIEWS = [
+  { name:"Saliou", stars:5,
+    text:{ fr:"Je ne m'attendais pas à cette qualité de t-shirt — vraiment, c'est top !",
+           en:"I wasn't expecting this quality of t-shirt — honestly, it's top notch!" } },
+  { name:"Aïssatou", stars:5,
+    text:{ fr:"La qualité est superbe, j'aime beaucoup le design.",
+           en:"The quality is superb, I really love the design." } },
+  { name:"Sadibou Fall", stars:5,
+    text:{ fr:"J'en ai offert à des amis américains, ils n'en revenaient pas. Le meilleur cadeau à offrir à un étranger.",
+           en:"I gifted some to American friends, they couldn't believe it. The best gift to give to a foreigner." } },
+  { name:"Absatou Ba", city:"Paris", stars:5,
+    text:{ fr:"Je ressens beaucoup de fierté en portant mon t-shirt DEM DAKAR dans les rues de Paris.",
+           en:"I feel so much pride wearing my DEM DAKAR t-shirt in the streets of Paris." } },
+];
+const REVIEWS = { blanc:_TEE_REVIEWS, noir:_TEE_REVIEWS, vert:_TEE_REVIEWS, bleu:_TEE_REVIEWS, rouge:_TEE_REVIEWS, jaune:_TEE_REVIEWS };
+function reviewText(r){ return typeof r.text==="string" ? r.text : (r.text[LANG]||r.text.fr); }
 function starStr(n){ n=Math.max(0,Math.min(5,Math.round(n))); return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n); }
 function reviewsHTML(id){
   const list = REVIEWS[id] || [];
@@ -468,7 +483,7 @@ function reviewsHTML(id){
     <div class="reviews__grid">
       ${list.map(r=>`<figure class="review">
         <div class="stars">${starStr(r.stars)}</div>
-        <blockquote>${r.text}</blockquote>
+        <blockquote>${reviewText(r)}</blockquote>
         <figcaption>— ${r.name}${r.city?", "+r.city:""}</figcaption>
       </figure>`).join("")}
     </div>
