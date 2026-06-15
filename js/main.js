@@ -32,6 +32,11 @@ const I18N = {
     payModes:["Wave","Orange Money","Paiement à la livraison"], payDefault:"Paiement à la livraison",
     th:{preview:"Aperçu",artwork:"Tableau",size:"Format",price:"Prix",cart:"Panier"},
     footerTag:"Un peuple, une ville, un futur",
+    announce:"🔥 Drop 001 · Édition limitée — Livraison Dakar &amp; International",
+    limited:"Série limitée — une fois épuisé, ce coloris ne revient pas.",
+    trust:["✅ Paiement à la livraison (Dakar)","↩️ Satisfait ou échangé","🚚 Livraison suivie · Dakar &amp; international"],
+    reviewsTitle:"Ce qu'en disent les clients",
+    reviewsEmpty:"Sois le premier à porter le mouvement — ton avis ici bientôt.",
     deliveryNote:"Livraison à Dakar · Paiement Wave / OM / à la livraison",
     home:"Accueil", shop:"Boutique", view:"vue",
     dropTee:"Drop 001 · DEM DAKAR", dropCap:"Drop 002 · Casquettes",
@@ -77,6 +82,11 @@ const I18N = {
     payModes:["Wave","Orange Money","Cash on delivery"], payDefault:"Cash on delivery",
     th:{preview:"Preview",artwork:"Art print",size:"Size",price:"Price",cart:"Cart"},
     footerTag:"One people, one city, one future",
+    announce:"🔥 Drop 001 · Limited edition — Delivery Dakar &amp; Worldwide",
+    limited:"Limited series — once it's sold out, this colour won't return.",
+    trust:["✅ Cash on delivery (Dakar)","↩️ Satisfied or exchanged","🚚 Tracked delivery · Dakar &amp; worldwide"],
+    reviewsTitle:"What customers say",
+    reviewsEmpty:"Be the first to wear the movement — your review here soon.",
     deliveryNote:"Delivery in Dakar · Wave / OM / cash on delivery",
     home:"Home", shop:"Shop", view:"view",
     dropTee:"Drop 001 · DEM DAKAR", dropCap:"Drop 002 · Caps",
@@ -438,6 +448,33 @@ function waIcon(){ return `<svg viewBox="0 0 24 24" fill="currentColor" width="1
 /* =========================================================
    PAGE PRODUIT
    ========================================================= */
+/* ---- Avis clients (preuve sociale) ----
+   Ajoute ici les VRAIS avis, par id produit. Exemple :
+   blanc:[{name:"Awa D.", city:"Dakar", stars:5, text:"Qualité top, livraison rapide !"}],
+   Tant qu'un produit n'a pas d'avis, une invitation s'affiche. */
+const REVIEWS = {};
+function starStr(n){ n=Math.max(0,Math.min(5,Math.round(n))); return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n); }
+function reviewsHTML(id){
+  const list = REVIEWS[id] || [];
+  if(!list.length){
+    return `<section class="reviews"><h3 class="reviews__title">${tx.reviewsTitle}</h3><p class="reviews__empty">${tx.reviewsEmpty}</p></section>`;
+  }
+  const avg = list.reduce((s,r)=>s+r.stars,0)/list.length;
+  return `<section class="reviews">
+    <div class="reviews__head">
+      <h3 class="reviews__title">${tx.reviewsTitle}</h3>
+      <span class="reviews__avg"><b>${avg.toFixed(1)}</b> <span class="stars">${starStr(avg)}</span> · ${list.length}</span>
+    </div>
+    <div class="reviews__grid">
+      ${list.map(r=>`<figure class="review">
+        <div class="stars">${starStr(r.stars)}</div>
+        <blockquote>${r.text}</blockquote>
+        <figcaption>— ${r.name}${r.city?", "+r.city:""}</figcaption>
+      </figure>`).join("")}
+    </div>
+  </section>`;
+}
+
 function initProductPage(){
   const root=document.getElementById("productRoot");
   if(!root) return;
@@ -509,18 +546,23 @@ function initProductPage(){
           <span style="font-size:.85rem;color:var(--muted)">${tx.deliveryNote}</span>
         </div>
 
+        <p class="pd-limited">⏳ ${tx.limited}</p>
+
         <div class="pd__buy">
           <button class="btn btn--solid btn--lg btn--block" id="addBtn">${tx.orderNow}</button>
           <a class="btn btn--wa btn--lg btn--block" id="waBtn" target="_blank" rel="noopener" href="#">${waIcon()} ${tx.waWrite}</a>
           <p id="selWarn" style="display:none;color:var(--red);font-size:.82rem;font-weight:700">${tx.chooseSize}</p>
         </div>
 
+        <ul class="trust-row">${tx.trust.map(t=>`<li>${t}</li>`).join("")}</ul>
+
         <div class="pd__meta">
           <div class="longdesc">${isCap?tx.longCap:tx.longTee}</div>
           <ul style="margin-top:1.4rem">${isCap?tx.specCap:tx.specTee}</ul>
         </div>
       </div>
-    </div>`;
+    </div>
+    ${reviewsHTML(p.id)}`;
 
   let qty=1;
   const $=s=>root.querySelector(s);
@@ -613,6 +655,11 @@ function initLang(){
 
 function initChrome(){
   initLang();
+  // Bandeau d'annonce (urgence drop limité) — injecté tout en haut
+  if(!document.querySelector(".announce-bar")){
+    const header=document.querySelector(".site-header");
+    if(header) header.insertAdjacentHTML("beforebegin", `<div class="announce-bar">${tx.announce}</div>`);
+  }
   document.querySelectorAll("[data-year]").forEach(el=>el.textContent=new Date().getFullYear());
   document.querySelectorAll("[data-wa]").forEach(a=>{
     const base=`https://wa.me/${DEM.whatsapp}`;

@@ -576,3 +576,37 @@ h3{font-size:clamp(1.6rem,3.4vw,2.4rem)}
 /* ---------- Badge Best-seller ---------- */
 .pcard__badge{position:absolute;top:12px;right:12px;z-index:3;background:var(--red);color:#fff;font-weight:800;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;padding:.42rem .7rem;border-radius:40px;box-shadow:0 6px 16px -6px rgba(226,59,46,.7);white-space:nowrap}
 .pd-badge{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .7rem;border-radius:40px;margin-left:.5rem;vertical-align:middle}
+
+/* ===== Conversion : bandeau urgence · confiance · avis ===== */
+.announce-bar{
+  background:linear-gradient(90deg,var(--red),#c52f23);
+  color:#fff;text-align:center;font-weight:700;
+  font-size:.82rem;letter-spacing:.02em;
+  padding:.55rem 1rem;line-height:1.3;
+}
+.pd-limited{
+  display:inline-block;margin:1rem 0 .2rem;
+  background:#fff4f2;color:var(--red);
+  border:1px solid #f4c4be;border-radius:.5rem;
+  padding:.5rem .8rem;font-weight:700;font-size:.9rem;
+}
+.trust-row{
+  list-style:none;margin:1.1rem 0 0;padding:0;
+  display:flex;flex-direction:column;gap:.5rem;
+}
+.trust-row li{
+  font-size:.92rem;font-weight:600;color:var(--ink);
+  background:var(--cream);border-radius:.5rem;padding:.55rem .8rem;
+}
+.reviews{margin-top:3.5rem;border-top:1px solid #e7e2d6;padding-top:2.2rem}
+.reviews__head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+.reviews__title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.6rem);margin:0}
+.reviews__avg{font-size:1rem;color:var(--muted);font-weight:600}
+.reviews__avg b{font-size:1.5rem;color:var(--ink)}
+.reviews .stars{color:var(--yellow);letter-spacing:.06em}
+.reviews__empty{color:var(--muted);margin-top:1rem;font-style:italic}
+.reviews__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.1rem;margin-top:1.6rem}
+.review{margin:0;background:#fff;border:1px solid #ece7da;border-radius:.9rem;padding:1.2rem 1.3rem;box-shadow:0 4px 18px rgba(20,22,26,.04)}
+.review .stars{font-size:1.05rem}
+.review blockquote{margin:.6rem 0 .8rem;font-size:1rem;line-height:1.5;color:var(--ink)}
+.review figcaption{font-size:.85rem;font-weight:700;color:var(--muted)}
