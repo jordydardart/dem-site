@@ -13,6 +13,9 @@ const DEM = {
   payment: { wave: "+221 78 010 93 99", orangeMoney: "+221 77 824 53 25" },
 };
 
+/* ---- Meta Pixel (suivi des événements) ---- */
+function fbqTrack(event, params){ try{ if(window.fbq) window.fbq("track", event, params||{}); }catch(e){} }
+
 /* ---- Langue ---- */
 const LANG = location.pathname.includes("/en/") ? "en" : "fr";
 const BASE = LANG === "en" ? "https://www.demsn.sn/en" : "https://www.demsn.sn";
@@ -170,6 +173,8 @@ const Cart = {
     const line = items.find(i => i.id===id && i.size===size);
     if(line){ line.qty += qty; } else { items.push({id,size,qty}); }
     this.save(items);
+    const p=findProduct(id);
+    fbqTrack("AddToCart", p?{content_name:p.name,content_ids:[id],content_type:"product",value:p.price*qty,currency:"XOF"}:{});
     openDrawer();
   },
   setQty(id,size,qty){
@@ -446,6 +451,7 @@ function initProductPage(){
   const shortDesc=isCap?tx.shortCap:tx.shortTee;
   let sel={ size: p.sizes.length===1 ? p.sizes[0] : null, color:p.id };
 
+  fbqTrack("ViewContent",{content_name:p.name,content_ids:[p.id],content_type:"product",value:p.price,currency:"XOF"});
   document.title=`${p.name} — ${fmt(p.price)} | DEM DAKAR`;
   (function seo(){
     const url=`${BASE}/produit.html?id=${p.id}`;
@@ -653,8 +659,15 @@ function initChrome(){
   });
   document.getElementById("cartCheckout")?.addEventListener("click",()=>{
     if(!Cart.count())return;
+    fbqTrack("InitiateCheckout",{value:Cart.total(),currency:"XOF",num_items:Cart.count()});
     window.open(`https://wa.me/${DEM.whatsapp}?text=${Cart.whatsappMessage()}`,"_blank");
   });
+
+  /* Tout clic vers WhatsApp = contact / intention d'achat */
+  document.addEventListener("click",e=>{
+    const a=e.target.closest('a[href*="wa.me"], a[data-wa]');
+    if(a) fbqTrack("Contact");
+  },true);
 }
 
 /* ---- Diaporama hero ---- */
