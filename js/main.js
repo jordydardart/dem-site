@@ -16,6 +16,12 @@ const DEM = {
 /* ---- Meta Pixel (suivi des événements) ---- */
 function fbqTrack(event, params){ try{ if(window.fbq) window.fbq("track", event, params||{}); }catch(e){} }
 
+/* ---- Protection des images (anti-copie facile) ---- */
+function initImageProtection(){
+  document.addEventListener("contextmenu", e=>{ if(e.target.closest("img")) e.preventDefault(); }, false);
+  document.addEventListener("dragstart", e=>{ if(e.target.closest("img")) e.preventDefault(); }, false);
+}
+
 /* ---- Langue ---- */
 const LANG = location.pathname.includes("/en/") ? "en" : "fr";
 const BASE = LANG === "en" ? "https://www.demsn.sn/en" : "https://www.demsn.sn";
@@ -758,6 +764,7 @@ function initHeroSlider(){
 /* ---- boot ---- */
 document.addEventListener("DOMContentLoaded",()=>{
   initChrome();
+  initImageProtection();
   initHeroSlider();
   Cart.render();
   renderGrid("shopGrid", PRODUCTS);
