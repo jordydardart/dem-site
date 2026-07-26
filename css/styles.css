@@ -628,3 +628,10 @@ img{ -webkit-user-drag:none; -khtml-user-drag:none; -moz-user-drag:none; user-dr
 .prose.legal h2{font-family:var(--font-display);font-size:clamp(1.4rem,3vw,1.9rem);margin:2rem 0 .5rem;color:var(--ink)}
 .prose.legal p{color:#3a3d44;line-height:1.65;margin:.4rem 0}
 .prose.legal a{color:var(--blue);font-weight:600}
+
+/* ===== Bandeau lifestyle casquettes ===== */
+.cap-lifestyle{margin:0 0 2rem;border-radius:1.1rem;overflow:hidden;position:relative;box-shadow:0 10px 34px rgba(20,22,26,.10)}
+.cap-lifestyle img{width:100%;height:clamp(320px,42vw,520px);object-fit:cover;object-position:center 20%;display:block}
+.cap-lifestyle figcaption{position:absolute;left:0;right:0;bottom:0;padding:2.4rem 1.4rem 1.1rem;
+  font-family:var(--font-display);font-size:clamp(1.3rem,3vw,2rem);letter-spacing:.02em;color:#fff;
+  background:linear-gradient(to top,rgba(20,22,26,.72),transparent)}
