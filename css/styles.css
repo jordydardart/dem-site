@@ -634,12 +634,12 @@ img{ -webkit-user-drag:none; -khtml-user-drag:none; -moz-user-drag:none; user-dr
 .cap-lifestyle{display:grid;grid-template-columns:1.05fr 1fr;gap:0;height:480px;margin:0 0 2rem;
   border-radius:1.1rem;overflow:hidden;background:var(--cream);box-shadow:0 10px 34px rgba(20,22,26,.10)}
 .cap-lifestyle__media{height:100%}
-.cap-lifestyle__media img{width:100%;height:100%;object-fit:cover;object-position:center 26%;display:block}
+.cap-lifestyle__media img{width:100%;height:100%;object-fit:cover;object-position:center 15%;display:block}
 .cap-lifestyle__body{padding:clamp(1.6rem,3.5vw,3rem);display:flex;flex-direction:column;justify-content:center;gap:.7rem}
 .cap-lifestyle__body h3{font-family:var(--font-display);font-size:clamp(1.8rem,3.6vw,2.8rem);line-height:1;margin:.1rem 0}
 .cap-lifestyle__body p{color:#3a3d44;line-height:1.55;max-width:34ch}
 .cap-lifestyle__body .btn{margin-top:.6rem}
 @media (max-width:760px){
   .cap-lifestyle{grid-template-columns:1fr;height:auto}
-  .cap-lifestyle__media img{height:clamp(300px,86vw,460px);object-position:center 20%}
+  .cap-lifestyle__media img{height:clamp(300px,86vw,460px);object-position:center 12%}
 }
